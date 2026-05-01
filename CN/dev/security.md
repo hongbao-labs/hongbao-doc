@@ -103,15 +103,17 @@
 5. **签名一次性（release 模式）**：`sign_count` 在签名后写入持久存储，再次 SIGN 永久 ERROR。
 6. **工厂模式锁定不可逆**：FACTORY_LOCK 命令一次执行后无法回退（除非重新 SWD 烧录，但 SWD 已锁）。
 
-## 最小信任设置
+## 最小信任设置（去信任审计 / 应急配置）
 
-如果你是发卡方且对我们的运营信任度为零，仍然可以使用 Hongbao：
+日常体验是 Hongbao 官方 App + 默认 Relayer——绝大多数发卡方和持卡人不需要碰下面这一节。
 
-- 合约公开 → 自审 / 第三方审计
-- 用任意 EVM 链 → 不依赖我们运营任何链
-- 自托管 Relayer → 不依赖我们的 API
-- 自建 App → 不依赖我们的 Web/移动客户端
-- 卡的固件闭源 → 但 BLE 接口公开，可独立验证：
+但如果你（发卡方 / 安全研究者 / 审计方）对 Hongbao 运营的信任度为零，仍然可以独立验证整套系统、独立完成发卡 + 领取的全流程：
+
+- **合约公开** → 自审 / 第三方审计
+- **任意 EVM 链** → 不依赖 Hongbao 运营任何链
+- **自托管 Relayer** → 不依赖 Hongbao 的 API（项目方填入 Web Dapp，或完全不依赖 Hongbao 走脚本路径）
+- **BLE 接口公开** → 可基于公开 spec 自实现客户端（仅限审计 / 应急 / 测试场景；常态体验仍走官方 App，详见 [device.md](device.md)）
+- **卡的固件闭源** → 但 BLE 接口公开，可独立验证：
   - GET_PUBKEY 拿到的 public key 是否真的对应 GET_ETH_ADDRESS
   - SIGN 返回的签名是否真的能被 ecrecover 恢复到 ETH 地址
   - SIGN 第二次是否真的会 ERROR

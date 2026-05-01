@@ -64,18 +64,34 @@ GET https://api.hongbao.digital/v1/claim/{txHash}    [TBD]
 - 缓存或转发签名以外的钱包数据
 - 对持卡人或发卡方收取任何形式的费用（早期阶段；未来可能加 fair-use 政策，会提前公告）
 
-## 为什么 Relayer 是可选的
+## Relayer 怎么被 App 选中
 
-合约 `withdraw(unlockAddress, to, v, r, s)` 的 `msg.sender` 可以是任何地址。这意味着：
+Hongbao 官方 App / Web 默认提交到 Hongbao 官方 Relayer。**项目方可以在 Hongbao Web Dapp 锁卡时填入一个自托管 Relayer URL**——这个 URL 写到批次元数据里。持卡人扫码领取时，App 会**同时把签名广播给两个 Relayer**：
+
+```
+                    ┌──► Hongbao 默认 Relayer ──► 链上 withdraw
+设备签名 ──► App ──┤
+                    └──► 项目方自托管 Relayer ──► 链上 withdraw
+                         （仅当项目方在锁卡时填了 URL）
+```
+
+两个 Relayer 抢着提交，先打包成功的入链；另一个发的同样 calldata 在合约层会因为 `unlockedAt != 0` revert。**不会双花，不会冲突**——多花的只是另一边一笔 revert 交易的 gas（由该 relayer 自己承担）。
+
+为什么这么设计：
+
+- **Hongbao 默认 relayer 多链多项目方**——总会有延迟峰值，没法对所有客户都做最高优先级 SLA
+- **项目方自托管 relayer 服务自家用户**——延迟通常低于默认 relayer
+- **同时广播 = 取较快的那个**——持卡人体验上限，又不依赖项目方一定要自部署
+
+合约层 `withdraw(unlockAddress, to, v, r, s)` 不限制 `msg.sender`——任何 EOA 都能调用。这意味着 Relayer 只是**纯运营组件**，对资产没有任何破坏能力。
 
 | 场景 | 提交者 | 谁出 gas |
 |---|---|---|
-| 默认（用户什么都不操心） | 我们的 relayer | 我们 |
-| 项目方想自己控管 | 项目方自建 relayer | 项目方 |
-| 用户有 native 币 | 用户自己钱包（MetaMask 等） | 用户 |
-| 网络极端拥堵时备份 | 第三方 relayer 服务 | 第三方 |
+| 默认（项目方未填自托管 URL） | Hongbao 默认 relayer | Hongbao |
+| 项目方填了自托管 URL | Hongbao 默认 + 项目方 relayer 双广播 | 哪个先成功哪个 |
+| 自建客户端 + 用户付 gas | 用户自己钱包 | 用户 |
 
-签名一旦由设备产生，提交它就是个**纯链上操作**——签名本身不绑定任何提交者。
+> "用户自己钱包付 gas" 这条路径**仅在自建客户端场景下存在**——Hongbao 官方 App 不暴露这个开关，默认走 Relayer 体验。
 
 ## 自托管 Relayer
 
@@ -115,11 +131,33 @@ const txHash = await wallet.writeContract({
 
 我们没有提供官方的"relayer SDK"——上面 20 行 viem 已经够用。如果需要更复杂的 abuse prevention，参考 OpenZeppelin Defender、Gelato Network 等成熟服务。
 
-## 项目方自定义 Relayer 的接入
+## 项目方自托管 Relayer 的接入
 
-如果你（发卡方）部署了自己的 relayer，你的 App / 用户领取页应该把 POST 目标指向你的 endpoint，**不要**走我们的默认 relayer。这一步对用户透明——他们感知不到 gas 由谁付。
+接入路径：
 
-**我们不会强制 Relayer 路由**——卡片本身、合约本身都没有任何"指定 relayer"字段。完全由你的 App 决定。
+1. 部署你自己的 Relayer 服务（接受跟 Hongbao 默认 Relayer **完全相同的 POST 接口**——见上文 OpenAPI 草案）
+2. 在 Hongbao Web Dapp 锁卡时，把你的 Relayer URL 填入批次配置
+3. 完成 deposit 后，URL 会被写入批次元数据；持卡人扫码后，Hongbao 官方 App 会自动从元数据拿到这个 URL
+4. App 提交签名时，**同时**广播给 Hongbao 默认 Relayer 和你的 Relayer——两个抢提交，先成功的入链，另一个会被合约 `unlockedAt != 0` 自然 revert
+
+你的 Relayer 必须实现的接口形状：
+
+```
+POST <你的 endpoint>
+Content-Type: application/json
+Body: { chainId, pool, unlockAddress, to, v, r, s }
+→ 200 { txHash, status }
+```
+
+跟 Hongbao 默认 Relayer 的接口对称，方便 App 用同一段代码同时广播。
+
+**为什么要双广播而不是切换**：
+
+- 如果切换（"有项目方 relayer 就只发那个"），项目方 relayer 一旦故障，持卡人卡死
+- 双广播的稳定性来自冗余——任何一边能用，持卡人就能领
+- 项目方 relayer 的额外好处：自家用户的领取交易优先级更高，延迟显著低于多客户共享的默认 relayer
+
+**你不一定要部署 Relayer**——不部署就只走默认 relayer，体验仍然完整，只是延迟受 Hongbao 默认 Relayer 的多客户排队影响。规模不大 / 对延迟不敏感 / 不想运维 Relayer 的项目方完全可以略过。
 
 ## 信任路径回顾
 
@@ -148,8 +186,12 @@ Relayer 拿到签名
 **Q：Relayer 会不会泄漏用户隐私？**
 我们的默认 relayer 收到的数据是 `(chainId, pool, unlockAddress, to, sig)`——这些都是签名一旦上链就完全公开的内容。我们的运营日志只保留必要的 abuse prevention 字段（IP + 时间戳），不长期留存。如果你介意，自托管。
 
-**Q：如果你们的 Relayer 挂了怎么办？**
-App 应该有 fallback：1) 自动切换到备用 relayer；2) 提示用户用自己的钱包提交。我们的参考 App 实现了第二种。
+**Q：如果 Hongbao 默认 Relayer 挂了怎么办？**
+- 项目方填了自托管 Relayer 的批次：自托管 Relayer 仍在运行，签名照常上链。
+- 项目方没填的批次：领取会延迟到 Hongbao 默认 Relayer 恢复。极端情况下持卡人也可以用任意 EOA 自行提交 `withdraw`（不依赖任何 Relayer），但这条路径目前只在自建客户端场景下有 UX 支持，不在官方 App 的默认开关里。
+
+**Q：两个 Relayer 同时收到签名都成功打包，会双花吗？**
+不会。合约层 `withdraw` 一次性把卡的 `unlockedAt` 标记为非零，第二笔 tx 进入 mempool 时即便能 broadcast，进合约时也会 revert。最终上链的只有一笔，多花的只是另一边的 revert gas。
 
 **Q：Relayer 能不能扣手续费？**
 合约层面**不能**——合约不知道也不在乎是谁提交的。但 relayer 服务可以在自己 API 层面做付费/订阅墙（比如要求集成方付费才能用你的 relayer），这是商业层面的事。我们的默认 relayer 当前不收费。

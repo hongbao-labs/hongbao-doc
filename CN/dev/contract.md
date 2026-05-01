@@ -199,7 +199,9 @@ event PoolCreated(address indexed asset, address indexed initiator, address pool
 
 事件确切签名以仓库 ABI 为准。
 
-### 集成步骤（钱包 / App 视角）
+### 集成步骤（脚本化 / 自建客户端视角）
+
+> 项目方走 Hongbao Web Dapp 不需要碰这一节——Web Dapp 已经把 deposit / withdraw / withdrawExpired 全部封装。下面的步骤面向 (a) 想脚本化批量操作的开发者团队；(b) 想 fork / 魔改合约后自己接入的集成方；(c) 仅限去信任审计 / 应急场景的客户端实现。
 
 无论 Token 还是 NFT：
 
@@ -211,7 +213,7 @@ event PoolCreated(address indexed asset, address indexed initiator, address pool
 4. digest = pool.getWithdrawDigest(unlockAddress, to)
 5. 设备 BLE SIGN 命令签 digest，得到 64B sig (r||s)
 6. 推导 v：试 27 / 28，本地 ecrecover 选出能恢复到 unlockAddress 的那个
-7. 任意 EOA（自家 relayer / 我们的 relayer / 用户自己钱包）提交：
+7. 任意 EOA（自家 relayer / Hongbao 默认 relayer / 项目方自托管 relayer）提交：
    pool.withdraw(unlockAddress, to, v, r, s)
 ```
 
@@ -240,4 +242,16 @@ event PoolCreated(address indexed asset, address indexed initiator, address pool
 5. **过期后只允许 deposit 时记录的 initiator/depositor 取回**，且只能取回属于自己的份额。
 6. **不暴露任何 admin / pause / upgrade 入口**。
 
-满足这些约束的合约，能直接复用我们的 BLE 协议 + App 体系，把卡片的签名能力接入到任意链上。
+满足这些约束的合约，能直接复用 Hongbao 的 BLE 协议 + App 体系，把卡片的签名能力接入到任意链上。
+
+### 魔改 / 自部署 Pool 怎么被 Hongbao 官方 App 识别
+
+Hongbao 官方 App 不写死任何一个具体 Pool 地址——只要 Pool 暴露规范的 ABI（`cardTotal` / `cardExpire` / `cardUnlockedAt` / `getWithdrawDigest` / `withdraw` 等）+ 实现规范的 EIP-712 domain（`name="HongBao"`, `version="1"`, `chainId`, `verifyingContract=pool`），App 就能识别并完成兑付。
+
+接入方式：项目方在 Hongbao Web Dapp 锁卡时**填入自部署 Pool 的合约地址**——这个地址会写到批次元数据里，发卡时随卡分发；持卡人扫码后 App 从二维码 / 元数据拿到 Pool 地址，按规范 ABI + Domain 与之交互。
+
+也就是说：
+
+- **Hongbao 标准合约 + 标准 Factory 部署**：默认路径，零成本接入。
+- **Fork 标准合约改业务逻辑（白名单 / 动态金额 / staking 等）+ 自部署**：保持本节列出的 6 条最小契约，仍走 Hongbao 官方 App。
+- **从零自实现合约（同链 / 新链）**：同上，保持 6 条契约 + 规范 ABI + 规范 EIP-712 domain。

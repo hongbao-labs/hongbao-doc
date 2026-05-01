@@ -16,7 +16,9 @@
 四个组件，各自独立。其中：
 
 - **必须存在**：设备、合约
-- **可替换**：App、Relayer——任何人可以自建
+- **官方提供，唯一标准入口**：App（Web / iOS / Android）——硬件、客户端、合约三者紧耦合，统一固件审计、蓝牙协议和 UX 是产品保障，也是 Hongbao 与生态伙伴（钱包 / 交易所 / Dapp）合作的入口
+- **可叠加**：Relayer——除了 Hongbao 默认 Relayer 之外，项目方可在锁卡时填入自家 Relayer URL，App 会同时广播签名到两个 Relayer
+- **公开但不发 SDK**：BLE 设备接口规范完全公开（用于审计 + 抗审查应急），但不发布官方 CLI / SDK——日常持卡人体验请走官方 App。极端情况下（如官方 App 全面不可用且你急需取卡）请联系 Hongbao 获取应急 CLI
 
 ## 各组件能做 / 不能做
 
@@ -39,10 +41,10 @@
 
 不需要信任的：
 
-- 我们公司（不持有任何卡的私钥；合约无 admin）
+- 我们公司的运营状态（不持有任何卡的私钥；合约无 admin；服务中断不影响已发出卡的可领性）
 - 发卡方（不能改你的收款地址；不能在过期前撤回）
-- App（开源 + 可自建；改签名内容只会让签名失效）
-- Relayer（任意 EOA 都能当 Relayer；唯一作用是付 gas + 调合约）
+- App（行为可审计——所有命令都通过公开的 BLE 接口与设备 / 合约交互，改签名内容会让 ecrecover 失败）
+- Relayer（任意 EOA 都能当 Relayer；唯一作用是付 gas + 调合约；可同时广播到多个 relayer 抢提交）
 - BLE 链路（不加密——但传输的内容里没有秘密；签名是公开数据）
 
 ## 端到端 claim 时序
@@ -107,5 +109,5 @@
 
 - [合约接口](contract.md)：deposit / withdraw / withdrawExpired / EIP-712 schema / 事件
 - [设备接口](device.md)：BLE 协议、命令表、状态机、QR 格式
-- [Relayer 角色](relayer.md)：提交 calldata 的格式与可替换性
+- [Relayer 角色](relayer.md)：提交 calldata 的格式、双广播模型、自托管接入
 - [安全保证](security.md)：威胁模型 + 攻击面 + 缓解措施

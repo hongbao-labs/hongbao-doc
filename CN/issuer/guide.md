@@ -1,226 +1,152 @@
 # 发卡方端到端流程
 
-从下单到用户领取的完整流程。本指南面向 ERC20 与 ERC721 两种资产，二者步骤几乎一致，差异在最后单独说明。
+从下单到用户领取，整个流程像下面这样。**所有合约交互都集成在 Hongbao Web Dapp 里——项目方不需要写脚本、不需要直接调合约、不需要部署 Factory / Pool**，链上动作全部由前端按钮触发。
 
 ```
-1. 采购实体卡 → 我方寄送
-2. 收卡：扫码采集所有卡的 ETH 地址
-3. 部署 Factory（一次性，整条链一次）
-4. 创建 Pool（每种资产 + 每个 deposit 钱包一次）
-5. deposit / batchDeposit：把资产锁到卡的地址
-6. 派发实体卡给用户
-7. 用户扫码领取（详见受领指南）
-8. (可选) 过期后 withdrawExpired 赎回未领部分
+1. 下单
+2. 我们寄卡 + JSON
+3. 项目方收货验证
+4. 在 Web Dapp 一键锁定资产
+5. 派发实体卡
+6. 持卡人扫码领取
+7. （可选）过期一键赎回
 ```
+
+> 想绕过 Web Dapp、直接走合约层 / 自建客户端的开发者团队，参考 [dev/](../dev/)。本文面向项目方运营 / 商务侧，按 Web Dapp 流程描述。
 
 ---
 
-## 1. 采购
+## 1. 下单
 
-按订单交付。我们会和你确认数量、目标链、资产类型（ERC20 / ERC721）。卡到货时已完成：
+按订单交付。下单时确认：
 
-- 芯片内随机生成私钥
+- **数量**
+- **目标链**：协议层支持任何 secp256k1 验签的链；当前已开发 EVM 全系合约（其他链按订单扩展）
+- **资产类型**：当前 EVM 合约覆盖 ERC20 + ERC721；ERC1155 / 原生币 / 非标代币按订单定制
+- **卡面定制方案**：详见 [customization.md](customization.md)
+
+卡到货时已完成全部出厂工序：
+
+- 芯片内随机生成 secp256k1 私钥（永久封存，无人可读出）
 - HMAC 绑定 MCU + 安全芯片（防换芯片攻击）
 - SWD 烧录锁定（防固件提取）
-- 工厂锁（防出厂后恶意指令）
-- 签名/验证/身份认证测试通过
+- 工厂锁定（防出厂后恶意指令）
+- 签名 / 验证 / 身份认证测试通过
 - 深度休眠状态（零功耗）
 
 你**不需要**做任何固件层操作。
 
-## 2. 收卡：采集 ETH 地址
+## 2. 我们寄卡 + JSON
 
-每张卡的二维码内容形如：
-
-```
-https://hongbao.digital/_c?ea=XXXXXXXX
-```
-
-`XXXXXXXX` 是 ETH 地址的前 4 字节（用于 App 端蓝牙快速识别）。**完整 ETH 地址需要通过蓝牙读取**——这是设计上的安全考虑，避免单纯扫码就能拿到地址做未授权 deposit。
-
-实操上，我们提供一个采集脚本/工具（[TBD: 工具下载链接]），用蓝牙批量唤醒卡片、读取 ETH 地址，输出一个 `addresses.json`：
+每批卡随附一份 JSON 元数据文件，结构形如：
 
 ```json
-{ "addresses": ["0xAbc...", "0xDef...", ...] }
+{
+  "batch_id": "...",
+  "chain": "ethereum",
+  "asset_contract": "0x...",
+  "card_count": 1000,
+  "cards": [
+    { "eth_address": "0xAbc...", "qr_code_url": "https://hongbao.digital/_c?ea=...", "..." },
+    ...
+  ]
+}
 ```
 
-后续 `batchDeposit` 直接吃这个文件。
+> [TBD: JSON 完整字段定义 / 示例文件]
 
-## 3. 部署 Factory（一次性）
+## 3. 收货验证
 
-每条目标链上部署一次 Factory，之后所有项目方共用同一份 Factory（无许可、任何人可调用）。如果我们已经在该链上部署过，直接用现成的——查公开 [registry 地址列表 TBD] 或合约仓库 README。
+收到卡片 + JSON 后，建议做一次验卡：
 
-如果链上还没有：
+- **抽样验证**（推荐）：随机挑若干张卡，用 Hongbao 提供的工具读取每张卡的真实链上地址，与 JSON 中的 `eth_address` 比对
+- **全量验证**：批次涉及金额特别大时可以全量做一遍
 
-```bash
-# Token Factory
-forge script script/DeployFactory.s.sol --rpc-url $RPC --private-key $PK --broadcast
+[TBD: 验卡工具下载链接 + 操作步骤]
 
-# NFT Factory
-forge script script/DeployNFTFactory.s.sol --rpc-url $RPC --private-key $PK --broadcast
-```
+确认无误后进入下一步。
 
-## 4. 创建 Pool
+## 4. 在 Web Dapp 一键锁定资产
 
-**每种 (资产, deposit 钱包) 组合部署一个独立 Pool。** 同一种资产、同一个 deposit 钱包 → 复用同一个 pool（已部署会 revert）。
+登录 [TBD: Hongbao Issuer Dapp URL]，连接你的 deposit 钱包：
 
-```bash
-# Token Pool
-FACTORY=0x... TOKEN=0x<USDT 等> INITIATOR=0x<你的 deposit 钱包> \
-forge script script/CreatePool.s.sol --rpc-url $RPC --private-key $PK --broadcast
+[TBD: 截图 + 文字步骤]
+- 上传 / 选择批次 JSON
+- 选择资产合约（自动校验与 JSON 一致）
+- 设置每张卡锁定金额（ERC20）/ 选择 tokenId 列表（ERC721）
+- 设置过期时间（最少 30 天）
+- 点击「Lock」
 
-# NFT Pool（INITIATOR 必填，NFT 不支持开放模式）
-FACTORY=0x... COLLECTION=0x<NFT 合约地址> INITIATOR=0x<你的 deposit 钱包> \
-forge script script/CreateNFTPool.s.sol --rpc-url $RPC --private-key $PK --broadcast
-```
+后台一次性完成（你不需要关心）：
 
-### Token Pool 模式选择
+- （首次该链该资产）部署 Factory
+- 创建 Pool（每种资产 + 每个 deposit 钱包一次，已存在则复用）
+- ERC20 合约 approve
+- 按链上 gas limit 自动拆分批次 batchDeposit
+- 每笔交易状态实时回显，失败可重试
 
-ERC20 Pool 支持两种模式（部署时选定，不可更改）：
+进度走完后，所有卡都进入「可领取」状态。
 
-| 模式 | `initiator` | 谁能 deposit | 谁能 withdrawExpired | 何时用 |
-|---|---|---|---|---|
-| **限定模式** | 非零地址 | 仅该地址 | 仅该地址 | 单一发卡方（推荐）|
-| **开放模式** | `address(0)` | 任意地址 | 各 depositor 按份额取回 | 多人/众筹给同一批卡续充 |
+## 5. 派发
 
-NFT Pool 仅支持限定模式（构造时 `initiator == 0` 会 revert）。
-
-## 5. Deposit：把资产锁进卡片地址
-
-### ERC20
-
-事前批准：
-
-```solidity
-IERC20(token).approve(pool, totalAmount);
-```
-
-批量存款（每张卡相同金额相同锁定时间）：
-
-```bash
-POOL=0x... AMOUNT_ETHER=100 LOCK_DAYS=30 ADDRESSES_JSON=./addresses.json \
-forge script script/BatchDeposit.s.sol --rpc-url $RPC --private-key $PK --broadcast
-```
-
-或调合约：
-
-```solidity
-pool.batchDeposit(unlockAddresses, amount, lockTime);
-// 单张：
-pool.deposit(unlockAddress, amount, lockTime);
-// 续充（限定模式同一卡多次 deposit，自动累加；lockTime 参数被忽略）：
-pool.deposit(unlockAddress, additionalAmount, 0);
-```
-
-约束：
-
-- `lockTime >= MIN_LOCK_TIME`（30 天，硬编码常量，不可调）
-- 续充忽略 `lockTime`，过期时间以首次 deposit 为准
-
-### ERC721
-
-NFT 一卡一 tokenId，没有续充。两种 deposit 路径任选：
-
-**Pull 路径**（先 approve，再调 deposit）：
-
-```solidity
-IERC721(collection).approve(pool, tokenId);
-pool.deposit(unlockAddress, tokenId, lockTime);
-```
-
-**Push 路径**（直接 safeTransferFrom，data 里编码参数）：
-
-```solidity
-IERC721(collection).safeTransferFrom(
-    initiator, pool, tokenId,
-    abi.encode(unlockAddress, lockTime)
-);
-```
-
-批量在脚本层面循环（任一失败整批 revert）：
-
-```bash
-POOL=0x... LOCK_DAYS=30 ENTRIES_JSON=./entries.json \
-forge script script/BatchDepositNFT.s.sol --rpc-url $RPC --private-key $PK --broadcast
-```
-
-`entries.json`：
-
-```json
-{ "entries": [{ "unlockAddress": "0xAbc...", "tokenId": "1" }, ...] }
-```
-
-## 6. 派发
-
-把实体卡寄给/送给用户。怎么送是你的事——内嵌贺卡、活动现场、快递邮寄都行。
+把实体卡寄 / 送给用户。怎么送是你的事——内嵌贺卡、活动现场、快递邮寄都行。
 
 派发时建议同时告知用户：
 
 - 这是张红包卡，扫码就能领
 - 过期时间（避免用户错过）
-- 你的 App 入口（如果你套了自己品牌的领取页面）
 
-如果用我们的标准领取页，二维码扫出来直接进 `https://hongbao.digital/...`，不需要额外引导。
+二维码默认指向 `https://hongbao.digital/...`——扫出来直接进 Hongbao 官方领取入口（Web 端自动适配；安装了 Hongbao App 会优先打开 App），不需要额外引导。持卡人入口的标准化是产品保障，发卡方不另行托管 / 替换前端。
 
-## 7. 用户领取
+## 6. 持卡人领取
 
-详见 [持卡人领取指南](../receiver/guide.md)。简言之：用户扫码 → App 蓝牙连卡 → 输入收款地址 → 长按 10 秒签名 → 任意 EOA（默认我们的 relayer）提交 `withdraw(unlockAddress, to, v, r, s)`。
+详见 [持卡人领取指南](../receiver/guide.md)。
 
-你不需要在领取流程中做任何事。链上事件（Token: `Withdraw`，NFT: `WithdrawNFT`）可以监听，用于更新自己后台的兑付状态。
+链上交易通过 Hongbao 官方 Relayer（默认）或自托管 Relayer 提交。你不需要在领取流程中做任何事。
 
-## 8. 过期赎回未领资产
+链上事件可以监听，用于更新自己后台的兑付状态：
 
-最早可在 deposit 后 `lockTime` 秒发起。**只有 deposit 钱包能调用**：
+| 资产 | 事件 |
+|---|---|
+| ERC20 | `Withdraw(unlockAddress, to, amount)` |
+| ERC721 | `WithdrawNFT(unlockAddress, to, tokenId)` |
 
-```solidity
-// ERC20 限定模式：
-pool.withdrawExpired(unlockAddress);
-pool.batchWithdrawExpired(unlockAddresses);
+## 7. 过期赎回（可选）
 
-// ERC20 开放模式：每个 depositor 各自调用，按自己份额取回
-pool.withdrawExpired(unlockAddress);
+最早可在 deposit 后 `lockTime` 秒发起。在 Web Dapp 同一界面里：
 
-// ERC721：
-pool.withdrawExpired(unlockAddress);
-pool.batchWithdrawExpired(unlockAddresses);
-```
+[TBD: 截图 + 步骤]
+- 选择批次
+- 点击「Withdraw Expired」
 
-行为细节：
+行为：
 
-- 已被领取的卡 → ERC20 单调 revert，batch 静默跳过
-- 没有 deposit 记录 → 单调 revert，batch 静默跳过
-- ERC721 batch：单条 `safeTransferFrom` 失败也跳过、状态保留供后续重试
-- 单调严格 revert 是为了让你能立刻定位错误；batch 静默跳过是为了让批量任务不会被一两条已领取的卡卡住
-
-赎回的资产回到调用者钱包（限定模式 = `initiator`，开放模式 = 各 depositor）。
+- 已被领取的卡 → 自动跳过
+- 没有 deposit 记录 → 自动跳过
+- 资产回到你的 deposit 钱包
 
 ---
 
-## 端到端示例：项目方做一次空投
+## 端到端示例
 
-假设你是某 DeFi 项目方，要给 1000 名 KOL 各空投 100 USDT，托管在 Polygon 上。
+某 DeFi 项目方给 1000 名 KOL 各空投 100 USDT，托管在 Polygon：
 
 ```
-1. 下单 1000 张卡，目标链 Polygon
-2. 收卡，用工具批量读取地址 → addresses.json
-3. 部署 Polygon Token Factory（如尚未部署）
-4. 创建 Pool：
-     factory.createPool(USDT_POLYGON, my_deposit_eoa)
-5. Approve + batchDeposit：
-     usdt.approve(pool, 100_000 * 1e6)
-     pool.batchDeposit(addresses, 100 * 1e6, 60 days)
-6. 把 1000 张卡寄给 KOL，附说明卡片
-7. KOL 各自扫码领取
-8. 60 天后查未领的卡，batchWithdrawExpired 赎回
+1. 下单 1000 张卡（Polygon / USDT / 卡面联名定制方案）
+2. 我们寄卡 + 批次 JSON
+3. 项目方抽样读 50 张卡比对地址，确认无误
+4. 登录 Web Dapp → 上传 JSON → 100 USDT/张 → 60 天过期 → Lock
+5. 寄卡给 KOL
+6. KOL 扫码领取（Hongbao 官方入口，gas 由默认 Relayer 代付）
+7. 60 天后回到 Web Dapp，一键 Withdraw Expired 把未领部分赎回
 ```
 
-总链上交互：1 笔 `createPool` + 1 笔 `approve` + 1 笔 `batchDeposit`（按 batch size 拆几笔）+ 后续 `batchWithdrawExpired`。
+项目方可见的链上交互：approve + 若干笔 batchDeposit + 后续可选 withdrawExpired，**全部通过 Web Dapp 触发，不需要写脚本**。
 
 ## 注意事项
 
-- **批量 size 上限**：单笔 `batchDeposit` 受 gas limit 约束，建议每批 50-100 张实测拆分。
-- **NFT 收款地址校验**：让用户的 App 在签名前严格校验 `to` 能接收 ERC721——否则签了就报废。我们的参考 App 已实现，自建 App 一定要做。
-- **过期时间最少 30 天**：合约硬编码，少于会 revert。
-- **资产范围**：合约绑定一个具体 ERC20/ERC721 合约，无法在同一 pool 里混锁多种资产。要发不同资产就部署不同 pool。
-- **跨链 deposit**：每条链各自独立部署/deposit。卡本身是地址形态的，同一张卡的地址在所有 EVM 链都是同一个；但卡只能签一次，所以**一张卡只能在一条链上锁、一条链上领**。
-- **不要往同一张卡的地址在多条链锁资产**——只有一条链能被领取（用户随便选哪条链领，其他链的资产就再也签不出来）。
+- **批量大小**：Web Dapp 按目标链 gas limit 自动拆分，不需要手动算 batch size
+- **NFT 收款地址校验**：合约层不限制收款地址类型，但 Hongbao 官方 App 会在持卡人签名前校验地址是否能接收 ERC721（避免 NFT 转入不实现 `onERC721Received` 的地址而报废）
+- **过期时间最少 30 天**：合约硬编码常量
+- **资产范围**：每个 Pool 绑定一种资产；多种资产 = 多个 Pool（Web Dapp 内部分别管理）
+- **跨链 deposit**：每条链各自独立。卡是 secp256k1 地址形态，跨 EVM 链同址，但**卡只能签一次**——同一张卡只能在一条链上锁、一条链上领。**不要往同一张卡的地址在多条链同时锁资产**，否则用户在哪条链上领，其他链的资产就再也取不出来（只能等过期赎回）
