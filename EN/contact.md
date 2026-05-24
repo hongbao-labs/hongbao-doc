@@ -1,9 +1,1 @@
-# Contact
-
-| Channel | For |
-|---|---|
-| **Partnerships / bulk orders** | Enterprises and projects: bulk card issuance, co-branded customization, new-chain expansion [TBD] |
-| **Retail purchase** | Individuals buying a small number as gifts [TBD] |
-| **Ecosystem partnerships** | Wallet / exchange / dapp integration & referral partnerships [TBD] |
-| **Open-source code & issues** | GitHub repo, bug reports, PRs [TBD] |
-| **Security disclosure** | Vulnerabilities, cryptography questions, contract risks [TBD] |
+# Contact | Channel | For | |---|---| | **Partnerships / bulk orders** | partnerships@hongbao.digital — Enterprises and projects: bulk card issuance, co-branded customization, new-chain expansion | | **Retail purchase** | shop@hongbao.digital — Individuals buying a small number as gifts *(waitlist only — retail not yet open)* | | **Ecosystem partnerships** | bd@hongbao.digital — Wallet / exchange / dapp integration & referral partnerships | | **Open-source code & issues** | dev@hongbao.digital — GitHub repo, bug reports, PRs  | | **Security disclosure** | security@hongbao.digital — Vulnerabilities, cryptography questions, contract risks  | | **General inquiries** | hello@hongbao.digital — Anything else |
