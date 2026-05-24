@@ -123,6 +123,93 @@ function WITHDRAW_TYPEHASH() external view returns (bytes32);
 function MIN_LOCK_TIME() external pure returns (uint256);  // 30 days
 ```
 
+### 任务卡（Task Card）
+
+同一个 Token Pool 支持两种卡：
+
+| 卡型 | 创建方式 | 行为 |
+|---|---|---|
+| **Plain card**（`taskCount == 0`） | `deposit` / `batchDeposit` | 全额一次性签名领取——上面描述的经典模型，已有集成无需改动 |
+| **Task card**（`taskCount > 0`） | `depositWithTasks`（仅限定模式） | 份额拆成 `basicAmount` + 1~255 个哈希任务，分级解锁 |
+
+**核心思路**：task card 的设备签名不再是"领全额"，而是**领基础份额 + 绑定收款地址**。绑定之后，每个任务由任何人提交预映像（preimage）解锁，资金强制流向绑定地址——**所以泄露预映像不会被冒领**。
+
+```solidity
+// 创建任务卡（仅限定模式）
+function depositWithTasks(
+    address unlockAddress,
+    uint256 basicAmount,            // 设备签名领取的基础份额（可为 0）
+    bytes32[] taskHashes,           // 每个任务的承诺哈希，长度 1..255
+    uint256[] taskAmounts,          // 每个任务的金额，与 taskHashes 等长
+    uint256 lockTime                // 首次 >= MIN_LOCK_TIME
+) external;
+//   卡片总额 = basicAmount + Σ taskAmounts
+//   taskHashes[i] 必须等于：
+//     keccak256(abi.encode(block.chainid, address(pool), unlockAddress, uint8(i), n_i))
+//   其中 n_i 是项目方为该 (卡, 任务槽) 生成的预映像。
+//   任务槽创建后不可变；后续 deposit 续充只进 basicAmount。
+
+function batchDepositWithTasks(
+    address[] unlockAddresses,
+    uint256[] basicAmounts,
+    bytes32[][] taskHashes,
+    uint256[][] taskAmounts,
+    uint256 lockTime
+) external;
+//   原子批量；任一失败整批 revert。
+
+// 领基础份额 + 绑定收款地址（task card 语义）
+function withdraw(address unlockAddress, address to, uint8 v, bytes32 r, bytes32 s) external;
+//   task card：转 basicAmount 给 to（可能为 0），记 boundTo = to、unlockedAt。
+//   任务槽保持可领，其资金后续强制流向这个 to。
+
+// 解锁单个任务
+function claimTask(address unlockAddress, uint8 taskIdx, bytes calldata n) external;
+//   任何人可调用；资金强制打到 boundTo。要求：
+//     1. 是 task card 且未 close
+//     2. 设备签名已绑定 boundTo（否则 BasicNotCompleted）
+//     3. 该任务槽未被领取
+//     4. keccak256(abi.encode(block.chainid, pool, unlockAddress, taskIdx, n)) == taskHashes[taskIdx]
+
+function batchClaimTask(
+    address[] unlockAddresses,
+    uint8[] taskIdxs,
+    bytes[] preimages
+) external;
+//   批量；个别 revert 的条目静默跳过（通过 TaskClaimed 事件判断结果）。
+
+// 过期赎回（task card）
+function withdrawExpired(address unlockAddress) external;
+//   task card：仅 initiator，收回全部剩余（未领 basic + 未领任务）并 close 卡片。
+//   close 之后 withdraw / claimTask 都 revert。
+
+// Task card 专属 View
+function cardBasicAmount(address unlockAddress) external view returns (uint256);
+function cardTaskCount(address unlockAddress) external view returns (uint8);   // 0 = plain card
+function cardBoundTo(address unlockAddress) external view returns (address);   // 未绑定为 0
+function cardClosed(address unlockAddress) external view returns (bool);
+function task(address unlockAddress, uint8 taskIdx)
+    external view returns (bytes32 hash, uint256 amount, uint256 claimedAt);
+function taskKey(address unlockAddress, uint8 taskIdx) external pure returns (bytes32);
+function computeTaskHash(address unlockAddress, uint8 taskIdx, bytes calldata n)
+    external view returns (bytes32);  // 项目方承诺 / 领取方自检用
+function MAX_TASKS_PER_CARD() external view returns (uint8);  // 255
+```
+
+**任务哈希的域绑定**：`keccak256(abi.encode(chainid, pool, unlockAddress, taskIdx, n))` 把每个预映像绑定到「这条链、这个 pool、这张卡、这个任务槽」——**跨链 / 跨 pool / 跨卡 / 跨槽都无法重放**。
+
+**为什么泄露预映像无害**：`claimTask` 把资金强制打到 `boundTo`（用户首次签名时锁定的地址）。即便预映像被第三方截获，提交后资金也只会流向原持卡人——攻击者拿不走。前提是设备签名的地址绑定已经发生到一个可信 `to`。
+
+**事件**：
+
+```solidity
+event TaskDeposited(address indexed unlockAddress, uint8 indexed taskIdx, uint256 amount, bytes32 hash);
+event Withdrawn(address indexed unlockAddress, address indexed to, uint256 amount);   // task card：amount = 释放的 basicAmount
+event TaskClaimed(address indexed unlockAddress, uint8 indexed taskIdx, address indexed to, uint256 amount);
+```
+
+> **状态**：task card 合约已在仓库实现（`pow` 分支）。配套的任务后端与数据看板仍在建设中。
+
 ### NFT Pool 接口
 
 ```solidity
@@ -201,7 +288,7 @@ event PoolCreated(address indexed asset, address indexed initiator, address pool
 
 ### 集成步骤（脚本化 / 自建客户端视角）
 
-> 项目方走 Hongbao Web Dapp 不需要碰这一节——Web Dapp 已经把 deposit / withdraw / withdrawExpired 全部封装。下面的步骤面向 (a) 想脚本化批量操作的开发者团队；(b) 想 fork / 魔改合约后自己接入的集成方；(c) 仅限去信任审计 / 应急场景的客户端实现。
+> 项目方走 Hongbao Web Dapp 不需要碰这一节——Web Dapp 已经把 deposit / withdraw / withdrawExpired 全部封装。下面的步骤面向 (a) 想脚本化批量操作的开发者团队；(b) 想 fork / 魔改合约后自己接入的集成方；(c) 去信任审计 / 自助取卡场景的客户端实现。
 
 无论 Token 还是 NFT：
 
