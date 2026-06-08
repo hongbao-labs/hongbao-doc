@@ -53,14 +53,12 @@ Non-customizable elements (determined by hardware / protocol layer):
 
 ## Process & Timeline
 
-```
 1. Business engagement → [TBD: NDA / contract cadence]
 2. Design file submission → Issuer submits against Hongbao template ([TBD: format requirements])
 3. Design review → Hongbao validates reserved areas + finishing feasibility [TBD: review turnaround]
 4. Sample approval → Physical sample cards shipped to issuer for sign-off [TBD: sampling turnaround]
 5. Mass production → [TBD: production lead time]
 6. Delivery → DOA policy per contract
-```
 
 ## Design File Specifications
 

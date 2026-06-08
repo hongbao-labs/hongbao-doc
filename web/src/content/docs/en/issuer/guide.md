@@ -6,7 +6,6 @@ draft: false
 
 From order to cardholder claim, the flow looks like this. **All contract interactions are integrated into the Hongbao Web Dapp — issuers do not need to write scripts, call contracts directly, or deploy a Factory / Pool**. Every on-chain action is triggered through the frontend UI.
 
-```
 1. Place order
 2. (Task cards) Design the campaign: basic amount + task list
 3. We ship cards + JSON
@@ -15,7 +14,6 @@ From order to cardholder claim, the flow looks like this. **All contract interac
 6. Distribute physical cards
 7. Cardholder scans to claim basic amount → completes tasks to unlock task amounts
 8. (Optional) Reclaim unclaimed amounts after expiry in one click
-```
 
 > Plain cards follow steps 1→3→4→5→6→7 (full amount claimed in one action). Task cards add step 2 for campaign design and step 7 for task unlocking. Developer teams who want to bypass the Web Dapp and interact directly at the contract layer or build a custom client can refer to the open-source repo ([TBD: GitHub]). This guide is written for issuer operations and BD teams, and describes the Web Dapp flow.
 
@@ -147,7 +145,6 @@ Behavior:
 
 A DeFi project airdropping 100 USDT to each of 1,000 KOLs, with assets held on Polygon:
 
-```
 1. Order 1,000 cards (Polygon / USDT / co-branded customization)
 2. We ship cards + batch JSON
 3. Issuer spot-checks 50 cards against addresses, confirms match
@@ -155,7 +152,6 @@ A DeFi project airdropping 100 USDT to each of 1,000 KOLs, with assets held on P
 5. Ship cards to KOLs
 6. KOLs scan to claim (Hongbao official claim page; gas covered by the default Relayer)
 7. After 60 days, return to Web Dapp and Withdraw Expired to reclaim unclaimed amounts
-```
 
 The issuer's visible on-chain interactions: approve + several batchDeposit transactions + optional withdrawExpired afterward — **all triggered through the Web Dapp, no scripting required**.
 
@@ -163,7 +159,6 @@ The issuer's visible on-chain interactions: approve + several batchDeposit trans
 
 A project distributing 500 cards to attendees at an in-person conference, 50 USDT per card, structured as "claim 10 on arrival + unlock 10 each for 4 tasks":
 
-```
 1. Order 500 cards (Polygon / USDT / co-branded card design)
 2. Design campaign: basic amount 10 USDT + 4 tasks (follow on X / retweet / join TG group / on-chain interaction — 10 USDT each)
 3. We ship cards + batch JSON
@@ -172,7 +167,6 @@ A project distributing 500 cards to attendees at an in-person conference, 50 USD
 6. Distribute cards at the conference
 7. Users scan to claim 10 USDT (recipient address bound) → complete tasks later, unlock each task amount one by one for +10 each
 8. After 60 days, Withdraw Expired in one click to reclaim amounts from uncompleted tasks
-```
 
 The dashboard shows in real time: who claimed the basic amount, which tasks each user completed, and their on-chain profile.
 
