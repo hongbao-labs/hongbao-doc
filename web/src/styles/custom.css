@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+
+:root {
+  --sl-color-accent-low: #fce8e8;
+  --sl-color-accent: #d42020;
+  --sl-color-accent-high: #a81818;
+}
+
+:root[data-theme='dark'] {
+  --sl-color-accent-low: #3d1515;
+  --sl-color-accent: #e84545;
+  --sl-color-accent-high: #ff6b6b;
+}
+
+/* Hero h1 — single line, no wrapping */
+.hero h1 {
+  white-space: nowrap;
+}
+
+/* Brand title — match main app Audiowide style */
+.site-title span {
+  font-family: 'Audiowide', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: #ffd27a;
+}
+
+/* Pagination — compact title size + arrow alignment */
+.pagination-links a {
+  align-items: center;
+}
+
+.pagination-links .link-title {
+  font-size: var(--sl-text-base);
+  line-height: 1.4;
+}
+
+.pagination-links [rel='next'] {
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: end;
+}
+
+.pagination-links [rel='next'] span {
+  order: 1;
+}
+
+.pagination-links [rel='next'] svg {
+  order: 2;
+  flex-shrink: 0;
+  align-self: center;
+}

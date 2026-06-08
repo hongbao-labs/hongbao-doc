@@ -1,0 +1,70 @@
+---
+title: Hongbao
+description: On-chain asset distribution via physical cards — hold the card, own the assets.
+template: splash
+draft: false
+hero:
+  title: Hold the card, own the assets.
+  tagline: Hongbao brings the red-packet paradigm on-chain. A physical card is a one-time signing device — hand it to someone and the assets are irreversibly theirs. No custodian. No freeze risk. Pure cryptography.
+  actions:
+    - text: I received a card
+      link: /en/receiver/overview/
+      icon: right-arrow
+      variant: primary
+    - text: I want to issue cards
+      link: /en/issuer/overview/
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## Three core promises
+
+<CardGrid>
+  <Card title="Hold the card, own the assets" icon="seti:lock">
+    The private key is generated in-chip by a hardware TRNG and physically sealed — no one can read it out. Whoever holds the card owns the assets.
+  </Card>
+  <Card title="Sign, and it's claimed" icon="approve-check">
+    The recipient address is baked into the signed data. No intermediary can redirect it. The card signs exactly once, then retires.
+  </Card>
+  <Card title="Zero-trust by design" icon="shield">
+    The contract has no owner, no admin, no upgrade path. Hongbao touches no assets and holds no private keys. The protocol runs self-sufficiently on public chains.
+  </Card>
+</CardGrid>
+
+## Where to start
+
+<CardGrid>
+  <LinkCard
+    title="You received a card"
+    description="How to claim, why it's safe, what to do if you lose it."
+    href="/en/receiver/overview/"
+  />
+  <LinkCard
+    title="You want to issue cards"
+    description="Offline growth campaigns, task cards, anti-sybil distribution, and data."
+    href="/en/issuer/overview/"
+  />
+</CardGrid>
+
+## Protocol overview
+
+**Hongbao** (红包) is the Mandarin word for "red packet." The Hongbao protocol brings the red-packet paradigm on-chain: a physical card *is* a red packet — the secure element inside generates a secp256k1 private key at the factory and seals it permanently. Hand the card to someone, and control of those assets transfers to them completely and irreversibly.
+
+**The protocol is built from four components:**
+
+| Component | Role | Form |
+|---|---|---|
+| **Hardware signing device** (the card) | One-time secp256k1 signing device | Designed, manufactured, and sold by Hongbao |
+| **Client** (Web / Android / iOS) | Guides the cardholder through claiming | Provided by Hongbao |
+| **Standard contract** | On-chain custody — binds the card address, releases funds after verifying the signature | Open-source; anyone can deploy / fork / extend |
+| **Relayer** | Pays gas to submit the withdraw transaction | A non-trusted role — any EOA can serve |
+
+**The on-chain layer is fully open** — wallets, exchanges, and dapps can all integrate or extend against this spec.
+
+**Supported chains:** secp256k1 is the de facto universal curve — Bitcoin, Ethereum and all EVM chains, Solana, Sui, Aptos, Tron, Cosmos, and more. Live today: full EVM family (ERC20 + ERC721). Others available on demand.
+
+---
+
+Not sure where to start? See [Contact](/en/contact/) for business inquiries and partnerships.

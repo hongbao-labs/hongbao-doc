@@ -1,0 +1,70 @@
+---
+title: Hongbao
+description: 用实体卡做链上资产分发——持卡即所有，签名即领取。
+template: splash
+draft: false
+hero:
+  title: 持卡即所有，签名即领取。
+  tagline: Hongbao 把红包范式搬到链上。一张实体卡就是一次性签名设备——递出去，资产就不可逆地归对方了。无托管、无冻结风险、纯密码学。
+  actions:
+    - text: 我收到了一张卡
+      link: /zh/receiver/overview/
+      icon: right-arrow
+      variant: primary
+    - text: 我想发卡
+      link: /zh/issuer/overview/
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## 三个核心承诺
+
+<CardGrid>
+  <Card title="持卡即所有" icon="seti:lock">
+    私钥在芯片内由硬件 TRNG 生成、物理永封，无人可读出。卡递到谁手里，资产就属于谁。
+  </Card>
+  <Card title="签名即领取" icon="approve-check">
+    收款地址写进签名内容，任何中间人都无法重定向。卡只能签一次，签完物理作废。
+  </Card>
+  <Card title="零信任设计" icon="shield">
+    合约无 owner、无 admin、无升级。Hongbao 不接触任何资产、不持有任何私钥，协议在公链上自洽运行。
+  </Card>
+</CardGrid>
+
+## 从哪里开始
+
+<CardGrid>
+  <LinkCard
+    title="我收到了一张卡"
+    description="怎么领取、为什么安全、丢失了怎么办。"
+    href="/zh/receiver/overview/"
+  />
+  <LinkCard
+    title="我想发卡"
+    description="线下增长活动、任务卡、反女巫分发与用户数据沉淀。"
+    href="/zh/issuer/overview/"
+  />
+</CardGrid>
+
+## 协议概述
+
+**Hongbao**，即"红包"的拼音。Hongbao 协议把红包范式搬到了链上：一张实体卡就是一只红包——卡内的安全芯片在出厂时随机生成 secp256k1 私钥并物理永封。递出这张卡，资产的控制权就完整地、不可逆地转移给了拿到卡的人。
+
+**协议由四个组件协同构成：**
+
+| 组件 | 角色 | 形态 |
+|---|---|---|
+| **硬件签名设备**（红包卡） | 一次性 secp256k1 签名设备 | 由 Hongbao 设计、生产、销售 |
+| **客户端**（Web / Android / iOS） | 引导持卡人完成领取 | 由 Hongbao 官方提供 |
+| **标准合约** | 链上资产托管层，校验签名后放款 | 开源，任何人可部署 / fork / 扩展 |
+| **Relayer** | 代付 gas 提交 withdraw 交易 | 非信任角色，任何 EOA 都可担任 |
+
+**链上部分完全开放**——钱包、交易所、Dapp 都可以基于这套规范集成或扩展。
+
+**支持的链：** secp256k1 是加密世界事实上的通用曲线——Bitcoin、Ethereum 及全部 EVM 链、Solana、Sui、Aptos、Tron、Cosmos 等主流公链全覆盖。当前已发布：EVM 全系。其他生态按订单扩展。
+
+---
+
+不确定从哪里开始？商务合作与采购请见[联系方式](/zh/contact/)。
