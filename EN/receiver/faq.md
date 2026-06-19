@@ -107,4 +107,4 @@ Which chain a specific card uses is determined by the card issuer; the App will 
 
 ## Still have questions?
 
-Reach out to the card issuer — they know their campaign best. For product or technical questions, see the open-source repo or open an issue there [TBD: link].
+Reach out to the card issuer — they know their campaign best. For product or technical questions, see the [open-source repo](https://github.com/hongbao-labs/contracts) or email zwx@hongbao.digital.

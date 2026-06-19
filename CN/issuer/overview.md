@@ -49,7 +49,7 @@ Hongbao 让项目方用一张实体卡组织线下增长活动：把代币装进
 3. 任务凭证由你掌控：每个任务的解锁凭证由你生成，可以托管在 Hongbao Web，也可以放自己后台。完成判定权在你手里。
 4. 没领完的一键收回：活动结束，未完成任务的份额一键赎回回你的钱包。
 
-> 解锁凭证就算泄露也不会被冒领，资金只会打到用户第一次签名时锁定的地址。详细机制见开源仓库（[TBD: GitHub]）。
+> 解锁凭证就算泄露也不会被冒领，资金只会打到用户第一次签名时锁定的地址。详细机制见开源仓库（https://github.com/hongbao-labs/contracts）。
 
 ### 真实用户数据回流
 
@@ -94,7 +94,7 @@ Hongbao 让项目方用一张实体卡组织线下增长活动：把代币装进
 8. 看板实时追踪参与与画像；过期未领份额一键赎回
 ```
 
-链上动作（Factory / Pool 部署、approve、batchDepositWithTasks、claimTask、withdrawExpired）全部由 Web Dapp 封装在按钮背后，不需要写脚本。详细流程见 [端到端指南](guide.md)；开发者团队参考开源仓库（[TBD: GitHub]）。
+链上动作（Factory / Pool 部署、approve、batchDepositWithTasks、claimTask、withdrawExpired）全部由 Web Dapp 封装在按钮背后，不需要写脚本。详细流程见 [端到端指南](guide.md)；开发者团队参考开源仓库（https://github.com/hongbao-labs/contracts）。
 
 ## 商业模式
 
@@ -124,4 +124,4 @@ Hongbao 链上零费用，合约层和 Relayer 都不收手续费。你的成本
 - [常见问题](faq.md)：任务、数据、合规、损耗、多链等
 - [contact.md](../contact.md)：商务对接 / 批量采购 / 生态合作
 
-> 想了解任务卡的合约机制（基础份额 + 任务份额、解锁凭证、地址绑定）？参考开源仓库（[TBD: GitHub]）。
+> 想了解任务卡的合约机制（基础份额 + 任务份额、解锁凭证、地址绑定）？参考开源仓库（https://github.com/hongbao-labs/contracts）。
