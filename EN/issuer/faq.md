@@ -12,7 +12,7 @@ No. `MIN_LOCK_TIME = 30 days` is a hardcoded contract constant. The reason: card
 No. If you could reclaim early, you could invalidate a user's gift at any time, which defeats the fundamental promise of a red packet. If you need that capability, please reconsider whether Hongbao is the right fit.
 
 **Q: Has the contract been audited?**
-No third-party audit yet. The team has a security background and the contract was designed and reviewed by a senior auditor internally. At this stage we have determined that a third-party audit is not cost-justified; we will revisit based on order volume and client requirements. The code is fully public at [TBD: GitHub URL] — you are welcome to review it yourself or commission an independent audit.
+No third-party audit yet. The team has a security background and the contract was designed and reviewed by a senior auditor internally. At this stage we have determined that a third-party audit is not cost-justified; we will revisit based on order volume and client requirements. The code is fully public at https://github.com/hongbao-labs/contracts — you are welcome to review it yourself or commission an independent audit.
 
 **Q: Does the contract take any fees?**
 None. Zero on-chain fees, zero protocol take — by design, to minimize compliance friction. Hongbao's revenue comes from hardware sales, issuer customization service fees, and ecosystem partnership revenue (wallets, exchanges, Dapps) — all **outside the protocol layer**, fully decoupled from issuer funds.
@@ -23,10 +23,10 @@ None. Zero on-chain fees, zero protocol take — by design, to minimize complian
 ## Operations
 
 **Q: Do I need to write scripts for on-chain operations like approve / batchDeposit / Pool deployment?**
-No. The Web Dapp wraps Factory deployment, Pool creation, approve, batch deposit, and batch withdrawExpired behind buttons. Connect your deposit wallet, upload your batch JSON, set parameters, and click Lock. If your team wants to interact directly at the contract layer or build a custom issuer client, refer to the open-source repo ([TBD: GitHub]).
+No. The Web Dapp wraps Factory deployment, Pool creation, approve, batch deposit, and batch withdrawExpired behind buttons. Connect your deposit wallet, upload your batch JSON, set parameters, and click Lock. If your team wants to interact directly at the contract layer or build a custom issuer client, refer to the open-source repo (https://github.com/hongbao-labs/contracts).
 
 **Q: How many cards can I issue in a single transaction?**
-You don't need to think about this. The Web Dapp automatically splits batches according to the target chain's gas limit, with real-time progress feedback and retry support for failures. The underlying constraint is that a single batch is bounded by the gas limit ([TBD: typical batch size per chain]).
+You don't need to think about this. The Web Dapp automatically splits batches according to the target chain's gas limit, with real-time progress feedback and retry support for failures. The underlying constraint is that a single batch is bounded by the target chain's gas limit, and the Web Dapp adapts the batch size per chain automatically.
 
 **Q: Can I lock multiple asset types to a single card?**
 No. One Pool is bound to one asset. Multiple assets require multiple Pools — but each card can receive one deposit per Pool.
@@ -40,7 +40,7 @@ Technically yes, but **not recommended**. A card can only sign once — wherever
 Yes. Run another deposit for the same card in the same batch in the Web Dapp. The expiry is fixed to the first deposit's lockTime — any lockTime passed in subsequent top-ups is ignored at the contract level.
 
 **Q: Is there support for multiple depositors funding the same card?**
-At the contract level, yes (an "open mode" Pool). The Web Dapp does not currently expose this flow directly. Developer teams who need this should interact at the contract layer — see the open-source repo ([TBD: GitHub]).
+At the contract level, yes (an "open mode" Pool). The Web Dapp does not currently expose this flow directly. Developer teams who need this should interact at the contract layer — see the open-source repo (https://github.com/hongbao-labs/contracts).
 
 **Q: How soon can I reclaim unclaimed funds?**
 After the `lockTime` set at deposit (minimum 30 days). Use one-click Withdraw Expired in the Web Dapp; assets return to your wallet immediately.
@@ -79,10 +79,10 @@ Yes. The Hongbao official App / Web is the only standard cardholder interface. H
 No. `withdraw(unlockAddress, to, v, r, s)` has no `msg.sender` restriction — any EOA can submit the transaction. You can use ours (the default), run your own, or have cardholders submit directly through another wallet (provided the user or you covers gas).
 
 **Q: Does using your Relayer cost anything?**
-By default we cover gas on your behalf, currently at no charge — this is an early-stage promotion and may be subject to a fair-use policy in the future. If your distribution volume is large or you require an SLA, self-hosting the Relayer is recommended. See the open-source repo ([TBD: GitHub]) for details.
+By default we cover gas on your behalf, currently at no charge — this is an early-stage promotion and may be subject to a fair-use policy in the future. If your distribution volume is large or you require an SLA, self-hosting the Relayer is recommended. See the open-source repo (https://github.com/hongbao-labs/contracts) for details.
 
 **Q: Can cardholders pay their own gas?**
-At the contract level there is no restriction on who submits (no `msg.sender` check on `withdraw`). The Hongbao official App defaults to Relayer-sponsored transactions — that is the standard cardholder experience. If your team builds a custom client on top of the contract ABI, you can have users pay gas from their own wallet (see the open-source repo [TBD: GitHub]), but this requires users to hold native tokens and degrades the experience.
+At the contract level there is no restriction on who submits (no `msg.sender` check on `withdraw`). The Hongbao official App defaults to Relayer-sponsored transactions — that is the standard cardholder experience. If your team builds a custom client on top of the contract ABI, you can have users pay gas from their own wallet (see the open-source repo https://github.com/hongbao-labs/contracts), but this requires users to hold native tokens and degrades the experience.
 
 ## Loss and After-Sales
 
@@ -93,7 +93,7 @@ Handled per the DOA policy in your commercial contract (case by case). Please pe
 Not before expiry. The card is the private key — losing the card means losing the key and losing the ability to transfer assets. After expiry, you can run `withdrawExpired` to reclaim the funds and issue the cardholder a replacement card with a new deposit. **This is our recommended lost-card SOP:** cardholder reports loss → you log it → wait for expiry reclaim → reissue new card + new deposit.
 
 **Q: Can you provide device serial numbers or card anti-counterfeiting traceability?**
-Each card's ETH address is its unique identifier. We do not offer an additional anti-counterfeiting or tracking service — if you need this, you can build a SKU system on top of the ETH addresses. Custom solutions available [TBD].
+Each card's ETH address is its unique identifier. We do not offer an additional anti-counterfeiting or tracking service — if you need this, you can build a SKU system on top of the ETH addresses. For custom solutions, reach out via [contact.md](../contact.md).
 
 **Q: What is the card's battery life?**
 Approximately 3 years by design (negligible drain in deep sleep; minimal consumption during active use). The battery is not replaceable.
@@ -126,5 +126,5 @@ They are **custodial** — the platform collects funds upfront and cardholders r
 
 ## More Questions?
 
-Business and purchasing: [TBD: contact]
-Technical questions: [TBD: GitHub Issues]
+Business and purchasing: hello@hongbao.digital
+Technical questions: zwx@hongbao.digital

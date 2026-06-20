@@ -4,7 +4,7 @@
 
 - 红包卡本身
 - 一部支持蓝牙的手机或电脑
-- 打开 Hongbao App（[TBD: 下载链接]）
+- 打开 Hongbao App（[Android APK](https://github.com/hongbao-labs/HB_Android/releases/download/v1.0.4/hongbao-v1.0.4-release.apk)）
 
 > 还没有任何加密钱包或交易所账号？没关系。App 会先带你去主流加密钱包或交易所完成注册，拿到一个收款地址再回来继续。Hongbao 自己不创建、不托管、不接触你的私钥，钱包或交易所账号始终由对应方掌管，我们只做注册导航。
 

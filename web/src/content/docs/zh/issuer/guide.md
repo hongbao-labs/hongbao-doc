@@ -6,6 +6,7 @@ draft: false
 
 从下单到用户领取，整个流程如下。所有合约交互都集成在 Hongbao Web Dapp 里，项目方不需要写脚本、不需要直接调合约、不需要部署 Factory / Pool，链上动作全部由前端按钮触发。
 
+```
 1. 下单
 2. （任务卡）设计活动：基础份额 + 任务列表
 3. 我们寄卡 + JSON
@@ -14,8 +15,9 @@ draft: false
 6. 线下派发实体卡
 7. 持卡人扫码领基础份额 → 完成任务解锁任务份额
 8. （可选）过期未领份额一键赎回
+```
 
-> 普通卡（plain card）走 1→3→4→5→6→7（一次领全额）即可；任务卡（task card）多出第 2 步活动设计与第 7 步任务解锁。想绕过 Web Dapp、直接走合约层 / 自建客户端的开发者团队，参考开源仓库（[TBD: GitHub]）。本文面向项目方运营 / 商务侧，按 Web Dapp 流程描述。
+> 普通卡（plain card）走 1→3→4→5→6→7（一次领全额）即可；任务卡（task card）多出第 2 步活动设计与第 7 步任务解锁。想绕过 Web Dapp、直接走合约层 / 自建客户端的开发者团队，参考开源仓库（https://github.com/hongbao-labs/contracts）。本文面向项目方运营 / 商务侧，按 Web Dapp 流程描述。
 
 ---
 
@@ -41,39 +43,37 @@ draft: false
 
 ## 2. 我们寄卡 + JSON
 
-每批卡随附一份 JSON 元数据文件，结构形如：
+每批卡随附一份 JSON 卡片清单：一个数组，每张卡一项，只含两个字段。
 
 ```json
-{
-  "batch_id": "...",
-  "chain": "ethereum",
-  "asset_contract": "0x...",
-  "card_count": 1000,
-  "cards": [
-    { "eth_address": "0xAbc...", "qr_code_url": "https://hongbao.digital/_c?ea=...", "..." },
-    ...
-  ]
-}
+[
+  { "card_address": "0xAbc...", "nickname": "Card #1" },
+  { "card_address": "0xDef...", "nickname": "Card #2" }
+]
 ```
 
-> [TBD: JSON 完整字段定义 / 示例文件]
+| 字段 | 必填 | 说明 |
+|---|---|---|
+| `card_address` | 是 | 卡片的链上地址（`0x` 开头的 40 位十六进制以太坊地址），即芯片内私钥对应的 secp256k1 地址 |
+| `nickname` | 否 | 卡片标签，仅用于在 Web Dapp 内展示与检索 |
+
+> 链、资产合约、锁定金额、过期时间等参数**不在**这份清单里——它们在第 4 步「Lock」时于 Web Dapp 设置。每张卡的领取二维码由 `card_address` 推导（`https://hongbao.digital/_c?ea=<地址前 6 位>`）。
 
 ## 3. 收货验证
 
 收到卡片 + JSON 后，建议做一次验卡：
 
-- 抽样验证（推荐）：随机挑若干张卡，用 Hongbao 提供的工具读取每张卡的链上地址，与 JSON 中的 `eth_address` 比对
+- 抽样验证（推荐）：随机挑若干张卡，用 Hongbao 提供的工具读取每张卡的链上地址，与 JSON 中的 `card_address` 比对
 - 全量验证：批次金额特别大时可以全量做一遍
 
-[TBD: 验卡工具下载链接 + 操作步骤]
+> 验卡工具暂未开放。如有验卡需求，请联系 hello@hongbao.digital。
 
 确认无误后进入下一步。
 
 ## 4. 在 Web Dapp 一键锁定资产
 
-登录 [TBD: Hongbao Issuer Dapp URL]，连接你的 deposit 钱包：
+登录 hongbao.digital，连接你的 deposit 钱包：
 
-[TBD: 截图 + 文字步骤]
 - 上传 / 选择批次 JSON
 - 选择资产合约（自动校验与 JSON 一致）
 - 设置每张卡锁定金额（ERC20）/ 选择 tokenId 列表（ERC721）
@@ -97,7 +97,7 @@ draft: false
 - 设置基础份额 + 任务列表：每个任务对应一个金额和一个完成条件（关注 / 转推 / 进群 / 链上活跃度认证等，最多 255 个）
 - 生成任务承诺：Web Dapp 为每张卡的每个任务生成一个预映像 `n`，把对应的哈希写进合约（`batchDepositWithTasks`）。预映像由你掌控，可托管在 Hongbao Web，也可导出到你自己的后台
 
-> 任务卡总额 = 基础份额 + Σ 任务份额。任务槽创建后不可变；续充只进基础份额。机制详见开源仓库（[TBD: GitHub]）。
+> 任务卡总额 = 基础份额 + Σ 任务份额。任务槽创建后不可变；续充只进基础份额。机制详见开源仓库（https://github.com/hongbao-labs/contracts）。
 
 ## 5. 派发
 
@@ -130,7 +130,6 @@ draft: false
 
 最早可在 deposit 后 `lockTime` 秒发起。在 Web Dapp 同一界面里：
 
-[TBD: 截图 + 步骤]
 - 选择批次
 - 点击「Withdraw Expired」
 
@@ -145,6 +144,7 @@ draft: false
 
 某 DeFi 项目方给 1000 名 KOL 各空投 100 USDT，托管在 Polygon：
 
+```
 1. 下单 1000 张卡（Polygon / USDT / 卡面联名定制方案）
 2. 我们寄卡 + 批次 JSON
 3. 项目方抽样读 50 张卡比对地址，确认无误
@@ -152,6 +152,7 @@ draft: false
 5. 寄卡给 KOL
 6. KOL 扫码领取（Hongbao 官方入口，gas 由默认 Relayer 代付）
 7. 60 天后回到 Web Dapp，一键 Withdraw Expired 把未领部分赎回
+```
 
 项目方可见的链上交互：approve + 若干笔 batchDeposit + 后续可选 withdrawExpired，全部通过 Web Dapp 触发，不需要写脚本。
 
@@ -159,6 +160,7 @@ draft: false
 
 某项目方在一场线下会议给 500 名到场用户发卡，每张 50 USDT，设计成"到场即领 10 + 完成 4 个任务各 10"：
 
+```
 1. 下单 500 张卡（Polygon / USDT / 联名卡面）
 2. 设计活动：基础份额 10 USDT + 4 个任务（关注 X / 转推 / 进 TG 群 / 链上交互各 10 USDT）
 3. 我们寄卡 + 批次 JSON
@@ -167,6 +169,7 @@ draft: false
 6. 会议现场发卡
 7. 用户扫码领 10 USDT（锁定收款地址）→ 回酒店完成任务，逐个解锁，每个 +10
 8. 60 天后未完成任务的份额一键 Withdraw Expired 收回
+```
 
 看板实时显示：谁领了基础份额、各完成了哪些任务、他们的链上画像。
 

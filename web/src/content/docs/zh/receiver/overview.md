@@ -4,7 +4,7 @@ description: 持卡人入门 — 红包卡是什么、为什么安全
 draft: false
 ---
 
-**扫码、按一下，几十秒到账。**
+### 扫码、按一下，几十秒到账。
 
 这张卡里装着一份链上资产，可能是稳定币（USDT / USDC）、主流代币（ETH / BNB / SOL）、NFT，也可能是项目方自己发行的任意 ERC20 / ERC721 乃至非标准代币。具体是什么、有多少，由发卡方决定，App 连上卡片后会显示给你看。
 
@@ -37,7 +37,7 @@ draft: false
 
 ## 你需要准备什么
 
-什么都不用。打开 Hongbao App（[Android APK 下载](https://github.com/hongbao-labs/HB_Android/releases/download/v1.0.2/hongbao-v1.0.2-release.apk) · iOS 即将上线），跟着引导走就行。
+什么都不用。打开 Hongbao App（[Android APK](https://github.com/hongbao-labs/HB_Android/releases/download/v1.0.4/hongbao-v1.0.4-release.apk)），跟着引导走就行。
 
 没有任何加密钱包或交易所账号？也没关系。App 会带你去主流加密钱包或交易所完成注册，拿到一个收款地址再回到 Hongbao 继续领取。
 

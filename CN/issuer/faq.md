@@ -12,7 +12,7 @@
 不能。如果你能提前赎回，就意味着你随时能让用户的"礼物"作废，这违背了红包的根本承诺。如果你需要这种能力，请重新评估是否适合用 Hongbao。
 
 **Q：合约审计了吗？**
-还没有第三方审计。团队本身有安全背景，合约由资深审计员设计并自审。早期阶段我们判断还不值得付审计成本，后续会根据订单规模和客户要求决定是否引入第三方背书。代码完全公开 [TBD: GitHub URL]，欢迎自审或委托独立审计。
+还没有第三方审计。团队本身有安全背景，合约由资深审计员设计并自审。早期阶段我们判断还不值得付审计成本，后续会根据订单规模和客户要求决定是否引入第三方背书。代码完全公开 https://github.com/hongbao-labs/contracts，欢迎自审或委托独立审计。
 
 **Q：合约会扣手续费吗？**
 不会。链上零手续费、零抽成，这是刻意为之，目的是最小化合规摩擦。Hongbao 的收入来自硬件销售、项目方定制服务费，以及 App 内与钱包、交易所等生态的合作分成，全部在协议层之外，和发卡方的资金完全解耦。
@@ -23,10 +23,10 @@
 ## 关于流程
 
 **Q：approve / batchDeposit / 部署 Pool 这些链上操作我自己要写脚本吗？**
-不需要。Web Dapp 已经把 Factory 部署、Pool 创建、approve、批量 deposit、批量 withdrawExpired 全部封装在按钮背后——你连接 deposit 钱包、上传批次 JSON、设参数、点 Lock 就行。如果你的团队希望直接走合约层 / 自建 issuer 客户端，参考开源仓库（[TBD: GitHub]）。
+不需要。Web Dapp 已经把 Factory 部署、Pool 创建、approve、批量 deposit、批量 withdrawExpired 全部封装在按钮背后——你连接 deposit 钱包、上传批次 JSON、设参数、点 Lock 就行。如果你的团队希望直接走合约层 / 自建 issuer 客户端，参考开源仓库（https://github.com/hongbao-labs/contracts）。
 
 **Q：一笔交易能发多少张？**
-不需要你关心。Web Dapp 会按目标链 gas limit 自动拆分批次，每笔进度实时回显，失败可重试。底层约束是单笔 batch 受 gas limit 限制（[TBD: 各链典型 batch size]）。
+不需要你关心。Web Dapp 会按目标链 gas limit 自动拆分批次，每笔进度实时回显，失败可重试。底层约束是单笔 batch 受目标链 gas limit 限制，Web Dapp 会按链自动适配批次大小。
 
 **Q：能不能一次给一张卡锁多种资产？**
 不能。一个 Pool 绑定一种资产。多种资产 = 多个 Pool，但每张卡每个 Pool 都能各 deposit 一次。
@@ -40,7 +40,7 @@
 可以。在 Web Dapp 同一批次里再做一次 deposit 即可，过期时间以首次为准（合约层面忽略续充传入的新 lockTime）。
 
 **Q：多个 depositor 给同一张卡充值这种高级用法支持吗？**
-合约层支持（"开放模式" Pool），Web Dapp 当前不直接暴露这条路径。需要的开发者团队走合约层，详见开源仓库（[TBD: GitHub]）。
+合约层支持（"开放模式" Pool），Web Dapp 当前不直接暴露这条路径。需要的开发者团队走合约层，详见开源仓库（https://github.com/hongbao-labs/contracts）。
 
 **Q：用户没领的钱我多久能拿回来？**
 deposit 时设置的 `lockTime` 到期后（最少 30 天）。在 Web Dapp 点 Withdraw Expired，资产立刻回到你的钱包。
@@ -79,10 +79,10 @@ deposit 时设置的 `lockTime` 到期后（最少 30 天）。在 Web Dapp 点 
 不必须。`withdraw(unlockAddress, to, v, r, s)` 没有 `msg.sender` 限制，任何 EOA 都能提交。可以用我们的（默认）、自己运营、或者让用户的 App 直接用其他钱包提交（前提是用户/你出 gas）。
 
 **Q：用你们的 Relayer 收钱吗？**
-默认我们替你出 gas，目前不收费，这是早期推广，未来可能加 fair-use 政策。如果你的发放规模大、有 SLA 要求，建议自托管 Relayer。具体见开源仓库（[TBD: GitHub]）。
+默认我们替你出 gas，目前不收费，这是早期推广，未来可能加 fair-use 政策。如果你的发放规模大、有 SLA 要求，建议自托管 Relayer。具体见开源仓库（https://github.com/hongbao-labs/contracts）。
 
 **Q：能不能让用户自己出 gas？**
-合约层不限制谁来提交（`withdraw` 没有 `msg.sender` 检查）。Hongbao 官方 App 默认走 Relayer 代付——这是标准持卡人体验。如果你的团队基于合约 ABI 自建客户端，可以让用户连自己的钱包付 gas（详见开源仓库 [TBD: GitHub]），但用户体验会差一截，要求用户钱包里有 native 币。
+合约层不限制谁来提交（`withdraw` 没有 `msg.sender` 检查）。Hongbao 官方 App 默认走 Relayer 代付——这是标准持卡人体验。如果你的团队基于合约 ABI 自建客户端，可以让用户连自己的钱包付 gas（详见开源仓库 https://github.com/hongbao-labs/contracts），但用户体验会差一截，要求用户钱包里有 native 币。
 
 ## 关于损耗与售后
 
@@ -93,7 +93,7 @@ deposit 时设置的 `lockTime` 到期后（最少 30 天）。在 Web Dapp 点 
 找不回（在过期前）。卡 = 私钥，丢卡 = 丢私钥 = 资产无法转出。但过期后你可以 `withdrawExpired` 把资产赎回，给用户补一张新卡。**这是我们建议的丢卡处理 SOP**：用户报损 → 你登记 → 等过期赎回 → 重发新卡 + 重新 deposit。
 
 **Q：能否给设备序号 / 卡片防伪溯源？**
-设备的 ETH 地址即唯一序列号（每张卡独立）。我们没有提供额外的防伪追踪服务——如果有需求，可以基于 ETH 地址自建 SKU 系统，定制方案 [TBD]。
+设备的 ETH 地址即唯一序列号（每张卡独立）。我们没有提供额外的防伪追踪服务——如果有需求，可以基于 ETH 地址自建 SKU 系统，定制方案请走商务对接（[contact.md](../contact.md)）。
 
 **Q：卡的电池寿命？**
 设计寿命约 3 年（深度休眠下基本不耗电；激活使用阶段消耗极低）。电池不可更换。
@@ -126,5 +126,5 @@ deposit 时设置的 `lockTime` 到期后（最少 30 天）。在 Web Dapp 点 
 
 ## 还有问题？
 
-商业合作 + 采购：[TBD: 联系方式]
-技术问题：[TBD: GitHub Issues]
+商业合作 + 采购：hello@hongbao.digital
+技术问题：zwx@hongbao.digital

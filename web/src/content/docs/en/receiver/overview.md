@@ -4,7 +4,7 @@ description: Introduction for cardholders — what a Hongbao card is and why it 
 draft: false
 ---
 
-**Scan, press, done — assets arrive in seconds.**
+### Scan, press, done — assets arrive in seconds.
 
 The card holds on-chain assets — these could be stablecoins (USDT / USDC), popular tokens (ETH / BNB / SOL), NFTs, or any ERC20 / ERC721 or other tokens issued by the distributor. **What's inside and how much is decided by the issuer — the App will show you the details once it connects to your card.**
 
@@ -37,7 +37,7 @@ You'll receive one of two card types — the App will tell you which once it con
 
 ## What you need
 
-Nothing. Download the Hongbao App ([Android APK](https://github.com/hongbao-labs/HB_Android/releases/download/v1.0.2/hongbao-v1.0.2-release.apk) · iOS coming soon) and follow the steps.
+Nothing. Download the Hongbao App ([Android APK](https://github.com/hongbao-labs/HB_Android/releases/download/v1.0.4/hongbao-v1.0.4-release.apk)) and follow the steps.
 
 **No crypto wallet or exchange account? No problem.** The App will walk you through setting one up with a mainstream crypto wallet or exchange so you get a receiving address, then bring you right back to finish claiming.
 
@@ -59,4 +59,4 @@ The smart contract holding your assets has no owner, no pause switch, and no upg
 ## What's Next
 
 → [Claim Guide](guide) (three steps, about 1 minute)
-→ [FAQ](faq) (lost card, expiry, security, supported chains, and more)
+→ [FAQ](faq.md) (lost card, expiry, security, supported chains, and more)

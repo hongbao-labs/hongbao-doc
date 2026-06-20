@@ -13,7 +13,7 @@ From order to cardholder claim, the flow looks like this. **All contract interac
 8. (Optional) Reclaim unclaimed amounts after expiry in one click
 ```
 
-> Plain cards follow steps 1→3→4→5→6→7 (full amount claimed in one action). Task cards add step 2 for campaign design and step 7 for task unlocking. Developer teams who want to bypass the Web Dapp and interact directly at the contract layer or build a custom client can refer to the open-source repo ([TBD: GitHub]). This guide is written for issuer operations and BD teams, and describes the Web Dapp flow.
+> Plain cards follow steps 1→3→4→5→6→7 (full amount claimed in one action). Task cards add step 2 for campaign design and step 7 for task unlocking. Developer teams who want to bypass the Web Dapp and interact directly at the contract layer or build a custom client can refer to the open-source repo (https://github.com/hongbao-labs/contracts). This guide is written for issuer operations and BD teams, and describes the Web Dapp flow.
 
 ---
 
@@ -39,39 +39,37 @@ You **do not** need to perform any firmware-level operations.
 
 ## 2. We Ship Cards + JSON
 
-Each card batch ships with a JSON metadata file structured as follows:
+Each card batch ships with a JSON card list: an array with one entry per card, containing just two fields.
 
 ```json
-{
-  "batch_id": "...",
-  "chain": "ethereum",
-  "asset_contract": "0x...",
-  "card_count": 1000,
-  "cards": [
-    { "eth_address": "0xAbc...", "qr_code_url": "https://hongbao.digital/_c?ea=...", "..." },
-    ...
-  ]
-}
+[
+  { "card_address": "0xAbc...", "nickname": "Card #1" },
+  { "card_address": "0xDef...", "nickname": "Card #2" }
+]
 ```
 
-> [TBD: Full JSON field definitions / sample file]
+| Field | Required | Description |
+|---|---|---|
+| `card_address` | Yes | The card's on-chain address (`0x`-prefixed, 40-hex Ethereum address) — the secp256k1 address of the private key sealed in the chip |
+| `nickname` | No | A display label, used only for presentation and search within the Web Dapp |
+
+> Chain, asset contract, locked amount, and expiry are **not** part of this list — they are set in the Web Dapp at step 4 ("Lock"). Each card's claim QR code is derived from its `card_address` (`https://hongbao.digital/_c?ea=<first 6 chars of the address>`).
 
 ## 3. Verify Shipment
 
 Upon receiving cards and JSON, run a verification pass:
 
-- **Spot check** (recommended): Randomly select a few cards, use the Hongbao-provided tool to read each card's on-chain address, and compare against the `eth_address` in the JSON.
+- **Spot check** (recommended): Randomly select a few cards, use the Hongbao-provided tool to read each card's on-chain address, and compare against the `card_address` in the JSON.
 - **Full verification**: For batches with especially large asset values, run a full sweep.
 
-[TBD: Verification tool download + instructions]
+> Verification tool not yet publicly available. For verification needs, contact hello@hongbao.digital.
 
 Once confirmed, proceed to the next step.
 
 ## 4. Lock Assets in One Click via Web Dapp
 
-Log in at [TBD: Hongbao Issuer Dapp URL] and connect your deposit wallet:
+Log in at hongbao.digital and connect your deposit wallet:
 
-[TBD: Screenshots + step-by-step instructions]
 - Upload / select the batch JSON
 - Select the asset contract (automatically validated against the JSON)
 - Set the locked amount per card (ERC20) / select the tokenId list (ERC721)
@@ -95,7 +93,7 @@ If this batch is task cards, the lock UI includes two additional steps:
 - **Set basic amount + task list**: Each task has an amount and a completion condition (follow / retweet / join group / on-chain activity verification, etc., up to 255 tasks)
 - **Generate task commitments**: The Web Dapp generates a preimage `n` for each task on each card and writes the corresponding hash into the contract (`batchDepositWithTasks`). You control the preimages — they can be hosted on Hongbao Web or exported to your own backend.
 
-> Total task card amount = basic amount + Σ task amounts. Task slots are immutable after creation; top-ups go to the basic amount only. See the open-source repo ([TBD: GitHub]) for full mechanism details.
+> Total task card amount = basic amount + Σ task amounts. Task slots are immutable after creation; top-ups go to the basic amount only. See the open-source repo (https://github.com/hongbao-labs/contracts) for full mechanism details.
 
 ## 5. Distribute
 
@@ -128,7 +126,6 @@ On-chain events can be monitored to update your backend state and dashboard:
 
 Can be initiated as early as `lockTime` seconds after deposit. In the same Web Dapp interface:
 
-[TBD: Screenshots + steps]
 - Select the batch
 - Click "Withdraw Expired"
 

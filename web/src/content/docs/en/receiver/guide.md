@@ -8,7 +8,7 @@ The whole process takes about 1 minute. Before you start, you'll need:
 
 - Your Hongbao card
 - A phone or computer with Bluetooth
-- The Hongbao App open ([Android APK](https://github.com/hongbao-labs/HB_Android/releases/download/v1.0.2/hongbao-v1.0.2-release.apk) · iOS coming soon)
+- The Hongbao App open ([Android APK](https://github.com/hongbao-labs/HB_Android/releases/download/v1.0.4/hongbao-v1.0.4-release.apk))
 
 > **Don't have a crypto wallet or exchange account yet? No problem.** The App will walk you through signing up with a mainstream crypto wallet or exchange so you can get a receiving address, then bring you right back to continue. Hongbao itself **never creates, holds, or touches** your private keys — your wallet or exchange account is always managed by that provider; we only guide you through the setup.
 
