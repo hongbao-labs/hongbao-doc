@@ -70,7 +70,6 @@
 
 登录 hongbao.digital，连接你的 deposit 钱包：
 
-[TBD: 截图 + 文字步骤]
 - 上传 / 选择批次 JSON
 - 选择资产合约（自动校验与 JSON 一致）
 - 设置每张卡锁定金额（ERC20）/ 选择 tokenId 列表（ERC721）
@@ -127,7 +126,6 @@
 
 最早可在 deposit 后 `lockTime` 秒发起。在 Web Dapp 同一界面里：
 
-[TBD: 截图 + 步骤]
 - 选择批次
 - 点击「Withdraw Expired」
 

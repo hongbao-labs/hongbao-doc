@@ -70,7 +70,6 @@ Once confirmed, proceed to the next step.
 
 Log in at hongbao.digital and connect your deposit wallet:
 
-[TBD: Screenshots + step-by-step instructions]
 - Upload / select the batch JSON
 - Select the asset contract (automatically validated against the JSON)
 - Set the locked amount per card (ERC20) / select the tokenId list (ERC721)
@@ -127,7 +126,6 @@ On-chain events can be monitored to update your backend state and dashboard:
 
 Can be initiated as early as `lockTime` seconds after deposit. In the same Web Dapp interface:
 
-[TBD: Screenshots + steps]
 - Select the batch
 - Click "Withdraw Expired"
 

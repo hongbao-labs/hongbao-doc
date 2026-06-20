@@ -69,7 +69,7 @@ Non-customizable elements (determined by hardware / protocol layer):
 | **Resolution** | Embedded raster elements ≥ 300 dpi at final printed size |
 | **Color mode** | CMYK; annotate Pantone spot-color codes if brand spot colors are required |
 | **Required clear zones** | Top-left corner clear zone (dimensions 🚧 Coming soon) must remain element-free; back clear zone (area description 🚧 Coming soon) must not be overprinted |
-| **Template download** | [TBD: template file link] |
+| **Template download** | 🚧 Coming soon |
 
 ## FAQ
 
@@ -77,10 +77,10 @@ Non-customizable elements (determined by hardware / protocol layer):
 No. The top-left logo is the anchor that lets cardholders identify a trusted Hongbao card. It is required on all shipped cards and cannot be waived through commercial negotiation.
 
 **Q: How long does sampling take? Can the sampling fee be credited toward the mass production order?**
-Sampling turnaround and whether the fee is credited toward the production order are confirmed per order — contact bd@hongbao.digital (see [contact.md](../contact.md)).
+Sampling turnaround and whether the fee is credited toward the production order are confirmed per order — contact hello@hongbao.digital (see [contact.md](../contact.md)).
 
 **Q: Can a single batch include multiple design variants?**
-Variant support, MOQ, and additional cost are evaluated per order — contact bd@hongbao.digital (see [contact.md](../contact.md)).
+Variant support, MOQ, and additional cost are evaluated per order — contact hello@hongbao.digital (see [contact.md](../contact.md)).
 
 ## Contact
 
