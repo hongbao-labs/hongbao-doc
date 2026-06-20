@@ -107,4 +107,4 @@ EVM 系是我们的第一个落地示例：
 
 ## 还有其他问题？
 
-请联系发卡方，他们对自己的发放活动最熟悉。如果是产品或技术问题，可以看开源仓库，或在那里提 issue [TBD: 链接]。
+请联系发卡方，他们对自己的发放活动最熟悉。如果是产品或技术问题，可以看开源合约仓库（[github.com/hongbao-labs/contracts](https://github.com/hongbao-labs/contracts)），或在 [GitHub Issues](https://github.com/hongbao-labs/contracts/issues) 提问。
