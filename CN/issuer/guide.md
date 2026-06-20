@@ -13,7 +13,7 @@
 8. （可选）过期未领份额一键赎回
 ```
 
-> 普通卡（plain card）走 1→3→4→5→6→7（一次领全额）即可；任务卡（task card）多出第 2 步活动设计与第 7 步任务解锁。想绕过 Web Dapp、直接走合约层 / 自建客户端的开发者团队，参考开源合约仓库（[github.com/hongbao-labs/contracts](https://github.com/hongbao-labs/contracts)）。本文面向项目方运营 / 商务侧，按 Web Dapp 流程描述。
+> 普通卡（plain card）走 1→3→4→5→6→7（一次领全额）即可；任务卡（task card）多出第 2 步活动设计与第 7 步任务解锁。想绕过 Web Dapp、直接走合约层 / 自建客户端的开发者团队，参考开源仓库（https://github.com/hongbao-labs/contracts）。本文面向项目方运营 / 商务侧，按 Web Dapp 流程描述。
 
 ---
 
@@ -62,20 +62,13 @@
 - 抽样验证（推荐）：随机挑若干张卡，用 Hongbao 提供的工具读取每张卡的链上地址，与 JSON 中的 `card_address` 比对
 - 全量验证：批次金额特别大时可以全量做一遍
 
-读卡用 Hongbao CLI（`hongbao` 命令行工具）。用 USB 转串口线把卡接到电脑，运行 `hongbao pubkey` 读出该卡的以太坊地址，与清单里的 `card_address` 比对：
-
-```bash
-hongbao pubkey
-# 输出中的 "Ethereum address" 即该卡的链上地址
-```
-
-> CLI 通过 USB 串口与卡通信（波特率 115200；macOS 需先安装 CH34x 串口驱动）。工具获取请联系 Hongbao（详见 [contact.md](../contact.md)）。
+> 验卡工具暂未开放。如有验卡需求，请联系 hello@hongbao.digital。
 
 确认无误后进入下一步。
 
 ## 4. 在 Web Dapp 一键锁定资产
 
-登录 Hongbao Web Dapp（[hongbao.digital](https://hongbao.digital)，以发卡方 / Issuer 角色登录），连接你的 deposit 钱包：
+登录 hongbao.digital，连接你的 deposit 钱包：
 
 [TBD: 截图 + 文字步骤]
 - 上传 / 选择批次 JSON
@@ -101,7 +94,7 @@ hongbao pubkey
 - 设置基础份额 + 任务列表：每个任务对应一个金额和一个完成条件（关注 / 转推 / 进群 / 链上活跃度认证等，最多 255 个）
 - 生成任务承诺：Web Dapp 为每张卡的每个任务生成一个预映像 `n`，把对应的哈希写进合约（`batchDepositWithTasks`）。预映像由你掌控，可托管在 Hongbao Web，也可导出到你自己的后台
 
-> 任务卡总额 = 基础份额 + Σ 任务份额。任务槽创建后不可变；续充只进基础份额。机制详见开源合约仓库（[github.com/hongbao-labs/contracts](https://github.com/hongbao-labs/contracts)）。
+> 任务卡总额 = 基础份额 + Σ 任务份额。任务槽创建后不可变；续充只进基础份额。机制详见开源仓库（https://github.com/hongbao-labs/contracts）。
 
 ## 5. 派发
 

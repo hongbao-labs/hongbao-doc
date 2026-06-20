@@ -33,7 +33,7 @@
 
 ## 你需要准备什么
 
-什么都不用。打开 Hongbao App（[下载 Android APK](https://github.com/hongbao-labs/HB_Android/releases/download/v1.0.4/hongbao-v1.0.4-release.apk)），跟着引导走就行。
+什么都不用。打开 Hongbao App（[Android APK](https://github.com/hongbao-labs/HB_Android/releases/download/v1.0.2/hongbao-v1.0.2-release.apk)），跟着引导走就行。
 
 没有任何加密钱包或交易所账号？也没关系。App 会带你去主流加密钱包或交易所完成注册，拿到一个收款地址再回到 Hongbao 继续领取。
 
