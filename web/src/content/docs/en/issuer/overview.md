@@ -4,7 +4,7 @@ description: Issuer overview — offline growth campaigns with physical task car
 draft: false
 ---
 
-### A physical gift card as the entry ticket + complete tasks to unlock allocation + real-user data fed back to you. Bots can't get a card, let alone finish the tasks.
+**A physical gift card as the entry ticket + complete tasks to unlock allocation + real-user data fed back to you. Bots can't get a card, let alone finish the tasks.**
 
 Hongbao lets a project run an offline growth campaign with a single physical card: load tokens into the card, set a batch of tasks (follow, retweet, join a group, on-chain interaction, etc.). The user gets a card — **the card itself is an anti-sybil identity ticket** — scans to claim a basic amount, and completes tasks to unlock more. When the campaign ends, what you walk away with isn't just "how much went out," but **who took part and what they look like on-chain**.
 
