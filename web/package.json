@@ -4,8 +4,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "migrate": "python3 scripts/migrate.py",
+    "predev": "npm run migrate",
     "dev": "astro dev --host 0.0.0.0",
+    "prestart": "npm run migrate",
     "start": "astro dev --host 0.0.0.0",
+    "prebuild": "npm run migrate",
     "build": "astro build",
     "preview": "astro preview --host 0.0.0.0"
   },

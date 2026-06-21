@@ -1,0 +1,8 @@
+# Build context for web/Dockerfile is the repo root. Keep it lean.
+.git
+**/node_modules
+**/dist
+**/.astro
+
+# Regenerated in-container by web/scripts/migrate.py at build time.
+web/src/content/docs
