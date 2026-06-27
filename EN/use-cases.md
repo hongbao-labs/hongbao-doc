@@ -1,4 +1,4 @@
-# Hongbao — The 场景 Library (Use Cases)
+# Hongbao — The Scenario Library (Use Cases)
 
 24 ways a physical card carrying on-chain rewards beats a bare wallet address. Grouped by buyer motion. Each entry: **who buys · the pain · why Hongbao wins · the one-line pitch.**
 
