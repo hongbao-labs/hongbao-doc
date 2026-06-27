@@ -4,7 +4,7 @@ The whole process takes about 1 minute. Before you start, you'll need:
 
 - Your Hongbao card
 - A phone or computer with Bluetooth
-- The Hongbao App open ([Android APK](https://github.com/hongbao-labs/HB_Android/releases/download/v1.0.4/hongbao-v1.0.4-release.apk))
+- The Hongbao App open ([Android APK](https://github.com/hongbao-labs/HB_Android/releases/download/v1.0.4/hongbao-v1.0.4-release.apk) — iOS & Web coming soon)
 
 > **Don't have a crypto wallet or exchange account yet? No problem.** The App will walk you through signing up with a mainstream crypto wallet or exchange so you can get a receiving address, then bring you right back to continue. Hongbao itself **never creates, holds, or touches** your private keys — your wallet or exchange account is always managed by that provider; we only guide you through the setup.
 
@@ -14,7 +14,7 @@ The whole process takes about 1 minute. Before you start, you'll need:
 
 Point your phone camera at the QR code on the card. You'll be taken to the official Hongbao claim page (works in your browser automatically; if you have the Hongbao App installed it will open there instead).
 
-No matter which project issued your card, the claim flow is the same — cards may look different (issuers can customize the design), but the process is unified.
+No matter which project issued your card, the claim flow is the same. Cards may look different — issuers can customize the design — but the steps you follow never change.
 
 ## Step 2: Connect over Bluetooth
 
@@ -79,4 +79,4 @@ Yes. Once you connect the card in the App, it will show you the type and amount 
 - Green + red both solid: the card has been used and can no longer sign.
 - Your assets are now in your wallet, just like any other on-chain assets — you can transfer or trade them freely.
 - The card itself has no further use. Keep it as a memento, or recycle it as you would any ordinary electronic device.
-- If the signature data is ever lost unexpectedly (relayer failure / App backend storage loss), don't worry — at the moment of signing, the Hongbao hardware records the complete signature in its secure chip. You can retrieve your previous signature at any time after signing.
+- If the signature data is ever lost unexpectedly (relayer failure / App backend storage loss), don't worry — at the moment of signing, the Hongbao hardware records the complete signature in its secure chip, and you can retrieve it at any time afterward.

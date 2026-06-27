@@ -13,7 +13,7 @@ From order to cardholder claim, the flow looks like this. **All contract interac
 8. (Optional) Reclaim unclaimed amounts after expiry in one click
 ```
 
-> Plain cards follow steps 1→3→4→5→6→7 (full amount claimed in one action). Task cards add step 2 for campaign design and step 7 for task unlocking. Developer teams who want to bypass the Web Dapp and interact directly at the contract layer or build a custom client can refer to the open-source repo (https://github.com/hongbao-labs/contracts). This guide is written for issuer operations and BD teams, and describes the Web Dapp flow.
+> Plain cards follow steps 1→3→4→5→6→7 (full amount claimed in one action). Task cards add step 2 for campaign design and step 7 for task unlocking. Developer teams who want to bypass the Web Dapp and interact directly at the contract layer or build a custom client can refer to the [open-source repo](https://github.com/hongbao-labs/contracts). This guide is written for issuer operations and BD teams, and describes the Web Dapp flow.
 
 ---
 
@@ -62,7 +62,7 @@ Upon receiving cards and JSON, run a verification pass:
 - **Spot check** (recommended): Randomly select a few cards, use the Hongbao-provided tool to read each card's on-chain address, and compare against the `card_address` in the JSON.
 - **Full verification**: For batches with especially large asset values, run a full sweep.
 
-> Verification tool not yet publicly available. For verification needs, contact hello@hongbao.digital.
+> The verification tool is not yet publicly available. For verification needs, contact hello@hongbao.digital.
 
 Once confirmed, proceed to the next step.
 
@@ -93,7 +93,7 @@ If this batch is task cards, the lock UI includes two additional steps:
 - **Set basic amount + task list**: Each task has an amount and a completion condition (follow / retweet / join group / on-chain activity verification, etc., up to 255 tasks)
 - **Generate task commitments**: The Web Dapp generates a preimage `n` for each task on each card and writes the corresponding hash into the contract (`batchDepositWithTasks`). You control the preimages — they can be hosted on Hongbao Web or exported to your own backend.
 
-> Total task card amount = basic amount + Σ task amounts. Task slots are immutable after creation; top-ups go to the basic amount only. See the open-source repo (https://github.com/hongbao-labs/contracts) for full mechanism details.
+> Total task card amount = basic amount + Σ task amounts. Task slots are immutable after creation; top-ups go to the basic amount only. See the [open-source repo](https://github.com/hongbao-labs/contracts) for full mechanism details.
 
 ## 5. Distribute
 

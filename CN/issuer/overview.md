@@ -2,7 +2,7 @@
 
 **物理礼品卡作身份门票，完成任务解锁份额，真实用户数据回流。机器人拿不到卡，更完不成任务。**
 
-Hongbao 让项目方用一张实体卡组织线下增长活动：把代币装进卡里，设一组任务（关注、转推、进群、链上交互等）。用户拿到卡，扫码领取基础份额，完成任务解锁更多。这张卡本身就是反女巫的身份门票。活动结束，你拿到的不只是"发出去多少"，还有谁参与了、他们链上是什么样子。
+Hongbao 让项目方用一张实体卡组织线下增长活动：把代币装进卡里，设一组任务（关注、转推、进群、链上交互等）。用户拿到卡，扫码领取基础份额，完成任务解锁更多。这张卡本身就是反女巫的身份门票。活动结束，你拿到的不只是"发出去多少"，还有谁参与了、他们在链上是什么样子。
 
 > 简单说，Hongbao 把线上 quest 平台的玩法搬到了线下，并用物理卡解决了这类平台最大的痛点：女巫。
 
@@ -14,7 +14,7 @@ Hongbao 让项目方用一张实体卡组织线下增长活动：把代币装进
 
 你在 quest 平台办活动，花钱买"完成任务的用户"，但其中大部分是脚本农场：
 
-- Sybil 攻击者捕获了某些大型空投 48% 的 token（[Cointelegraph 报道](https://cointelegraph.com/news/token-airdrops-targeted-farm-accounts-sybil-attacks)）
+- Sybil 攻击者拿走了某些大型空投 48% 的 token（[BlockEden 报道](https://blockeden.xyz/blog/2026/01/27/airdrop-season-2026-opensea-base-polymarket-hyperliquid-guide/)）
 - 行业调研显示，airdrop "eligible" 钱包里 70% 是假的（Cookie3）
 - 一个项目往往要靠 IP 聚类、钱包图谱过滤几十万个 sybil 地址，才能勉强清场（[Sybil 综述](https://integral.xyz/blog/sybil-attacks)）
 
@@ -22,7 +22,7 @@ Hongbao 让项目方用一张实体卡组织线下增长活动：把代币装进
 
 ### 2. 发完币，你根本不知道用户是谁
 
-空投或兑换码发出去，你拿到的只是一串地址。不知道他是不是真人、活不活跃、还玩过哪些协议，没有后续触达手段，也没有用户画像沉淀下来。Web3 项目方烧在获客上的钱占企业价值的 29-95%，Web2 只有 7-15%（[Tokens as CAC](https://tomtunguz.com/tokens-as-cac/)）。钱花了，数据没留下。
+空投或兑换码发出去，你拿到的只是一串地址。不知道他是不是真人、活不活跃、还玩过哪些协议，没有后续触达手段，用户画像也无从沉淀。Web3 项目方烧在获客上的钱占企业价值的 29-95%，Web2 只有 7-15%（[Tokens as CAC](https://tomtunguz.com/tokens-as-cac/)）。钱花了，数据没留下。
 
 ### 3. 想做线下活动，却没有趁手的工具
 
@@ -49,7 +49,7 @@ Hongbao 让项目方用一张实体卡组织线下增长活动：把代币装进
 3. 任务凭证由你掌控：每个任务的解锁凭证由你生成，可以托管在 Hongbao Web，也可以放自己后台。完成判定权在你手里。
 4. 没领完的一键收回：活动结束，未完成任务的份额一键赎回回你的钱包。
 
-> 解锁凭证就算泄露也不会被冒领，资金只会打到用户第一次签名时锁定的地址。详细机制见开源仓库（https://github.com/hongbao-labs/contracts）。
+> 解锁凭证就算泄露也不会被冒领，资金只会打到用户第一次签名时锁定的地址。详细机制见[开源仓库](https://github.com/hongbao-labs/contracts)。
 
 ### 真实用户数据回流
 
@@ -59,7 +59,7 @@ Hongbao 让项目方用一张实体卡组织线下增长活动：把代币装进
 - 链上画像：用户地址、gas 消耗、DEX 交互等行为，都是公开链上数据
 - 实时追踪、数据导出、一键 AI 生成分析文档
 
-数据按参与度分层。用户完成任务才解锁详细画像；不做任务的，我们只拿到一个链上地址，不强制绑定真实社交身份。隐私边界由用户协议约定。
+数据按参与度分层。用户完成任务才解锁详细画像；不做任务的，我们只拿到一个链上地址，不强制绑定真实社交身份。隐私边界由[隐私政策](https://hongbao.digital/#/privacy)约定。
 
 ---
 
@@ -94,7 +94,7 @@ Hongbao 让项目方用一张实体卡组织线下增长活动：把代币装进
 8. 看板实时追踪参与与画像；过期未领份额一键赎回
 ```
 
-链上动作（Factory / Pool 部署、approve、batchDepositWithTasks、claimTask、withdrawExpired）全部由 Web Dapp 封装在按钮背后，不需要写脚本。详细流程见 [端到端指南](guide.md)；开发者团队参考开源仓库（https://github.com/hongbao-labs/contracts）。
+链上动作（Factory / Pool 部署、approve、batchDepositWithTasks、claimTask、withdrawExpired）全部由 Web Dapp 封装在按钮背后，不需要写脚本。详细流程见 [端到端指南](guide.md)；开发者团队参考[开源仓库](https://github.com/hongbao-labs/contracts)。
 
 ## 商业模式
 
@@ -119,9 +119,12 @@ Hongbao 链上零费用，合约层和 Relayer 都不收手续费。你的成本
 
 ## 接下来
 
+- [场景库](../use-cases.md)：覆盖增长、商业、发薪、消费赠礼的 24 个场景，找到适合你的那个
 - [端到端流程](guide.md)：下单、设计任务、收卡、锁定、派发、赎回每一步
 - [卡面联名定制](customization.md)：保留区域、可定制项、工艺、起订量、流程
 - [常见问题](faq.md)：任务、数据、合规、损耗、多链等
+- [安全模型](../security.md)：安全保障、合约保证、审计状态
+- [开发者](../developers.md)：架构、接口与开源仓库
 - [contact.md](../contact.md)：商务对接 / 批量采购 / 生态合作
 
-> 想了解任务卡的合约机制（基础份额 + 任务份额、解锁凭证、地址绑定）？参考开源仓库（https://github.com/hongbao-labs/contracts）。
+> 想了解任务卡的合约机制（基础份额 + 任务份额、解锁凭证、地址绑定）？参考[开源仓库](https://github.com/hongbao-labs/contracts)。
