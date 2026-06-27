@@ -26,6 +26,17 @@ const issuerSidebar = [
   },
 ];
 
+const referenceSidebar = [
+  {
+    label: 'Reference',
+    translations: { 'zh-CN': '参考' },
+    items: [
+      { slug: 'glossary' },
+      { slug: 'developers' },
+    ],
+  },
+];
+
 export default defineConfig({
   devToolbar: { enabled: false },
   site: 'https://docs.hongbao.digital',
@@ -66,11 +77,14 @@ export default defineConfig({
               link: '/',
               translations: { 'zh-CN': '总览' },
             },
+            { slug: 'use-cases' },
+            { slug: 'security' },
             { slug: 'contact' },
           ],
         },
         ...receiverSidebar,
         ...issuerSidebar,
+        ...referenceSidebar,
       ],
       head: [
         {

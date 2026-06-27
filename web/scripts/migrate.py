@@ -52,6 +52,22 @@ DESCRIPTIONS: dict[str, dict[str, str]] = {
         "en": "Frequently asked questions for Hongbao issuers",
         "zh": "发卡方常见问题",
     },
+    "use-cases": {
+        "en": "Use-case library — ways a physical reward card beats a bare wallet address",
+        "zh": "场景库 — 实体红包卡相比裸钱包地址的应用场景",
+    },
+    "security": {
+        "en": "Security overview — contract, hardware, and liveness guarantees",
+        "zh": "安全总览 — 合约、硬件与可用性保障",
+    },
+    "glossary": {
+        "en": "Glossary of Hongbao terms",
+        "zh": "Hongbao 术语表",
+    },
+    "developers": {
+        "en": "Developer guide — open interfaces, architecture, and custom clients",
+        "zh": "开发者指南 — 开放接口、架构与自建客户端",
+    },
 }
 
 CONTACT_EN = """# Contact
@@ -67,7 +83,15 @@ CONTACT_EN = """# Contact
 """
 
 
-def transform_links(body: str) -> str:
+def transform_links(body: str, slug: str) -> str:
+    if slug in {"use-cases", "security", "glossary", "developers"}:
+        # These pages render at /<locale>/<slug>/ (one level below the locale
+        # root) and were authored with bare GitHub-relative `.md` links, so add
+        # `../` and drop the `.md` extension.
+        body = body.replace("[contact.md](contact.md)", "[Contact](../contact)")
+        body = re.sub(r"\]\(README\.md\)", "](../)", body)
+        body = re.sub(r"\]\(([\w./-]+)\.md(#[\w-]+)?\)", r"](../\1\2)", body)
+        return body
     body = re.sub(r"\[issuer/\]\(issuer/\)", "[Issuer](issuer/overview)", body)
     body = re.sub(r"\[receiver/\]\(receiver/\)", "[Receiver](receiver/overview)", body)
     body = re.sub(
@@ -180,6 +204,10 @@ def migrate_locale(locale: str, source_dir: Path) -> None:
         ("issuer/guide.md", "issuer/guide"),
         ("issuer/customization.md", "issuer/customization"),
         ("issuer/faq.md", "issuer/faq"),
+        ("use-cases.md", "use-cases"),
+        ("security.md", "security"),
+        ("glossary.md", "glossary"),
+        ("developers.md", "developers"),
     ]
 
     for source_rel, slug in mappings:
@@ -188,7 +216,7 @@ def migrate_locale(locale: str, source_dir: Path) -> None:
         else:
             raw = (source_dir / source_rel).read_text(encoding="utf-8")
             title, body = parse_markdown(raw)
-        body = transform_links(body)
+        body = transform_links(body, slug)
         write_doc(locale, slug, title, body)
 
 
