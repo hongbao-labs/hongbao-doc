@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import posixpath
 import re
 from pathlib import Path
 
@@ -83,86 +84,40 @@ CONTACT_EN = """# Contact
 """
 
 
+LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
+
+# Directory-style links to a section's landing page, e.g. [receiver/](receiver/).
+SECTION_LANDING = {"receiver/": "receiver/overview", "issuer/": "issuer/overview"}
+
+
 def transform_links(body: str, slug: str) -> str:
-    if slug in {"use-cases", "security", "glossary", "developers"}:
-        # These pages render at /<locale>/<slug>/ (one level below the locale
-        # root) and were authored with bare GitHub-relative `.md` links, so add
-        # `../` and drop the `.md` extension.
-        body = body.replace("[contact.md](contact.md)", "[Contact](../contact)")
-        body = re.sub(r"\]\(README\.md\)", "](../)", body)
-        body = re.sub(r"\]\(([\w./-]+)\.md(#[\w-]+)?\)", r"](../\1\2)", body)
-        return body
-    body = re.sub(r"\[issuer/\]\(issuer/\)", "[Issuer](issuer/overview)", body)
-    body = re.sub(r"\[receiver/\]\(receiver/\)", "[Receiver](receiver/overview)", body)
-    body = re.sub(
-        r"\[README\]\(\.\./README\.md\)",
-        "[Overview](../)",
-        body,
-    )
-    body = re.sub(
-        r"\[contact\.md\]\(\.\./contact\.md\)",
-        "[Contact](../contact)",
-        body,
-    )
-    body = re.sub(r"\[contact\.md\]\(contact\.md\)", "[Contact](contact)", body)
-    body = re.sub(r"\[guide\.md\]\(guide\.md\)", "[Claim Guide](guide)", body)
-    body = re.sub(r"\[faq\.md\]\(faq\.md\)", "[FAQ](faq)", body)
-    body = re.sub(
-        r"\[customization\.md\]\(customization\.md\)",
-        "[Customization](customization)",
-        body,
-    )
-    body = re.sub(
-        r"\[Cardholder Claim Guide\]\(\.\./receiver/guide\.md\)",
-        "[Cardholder Claim Guide](../receiver/guide)",
-        body,
-    )
-    body = re.sub(
-        r"\[持卡人领取指南\]\(\.\./receiver/guide\.md\)",
-        "[持卡人领取指南](../receiver/guide)",
-        body,
-    )
-    body = re.sub(
-        r"\[Claim Guide\]\(guide\.md\)",
-        "[Claim Guide](guide)",
-        body,
-    )
-    body = re.sub(
-        r"\[领取指南\]\(guide\.md\)",
-        "[领取指南](guide)",
-        body,
-    )
-    body = re.sub(
-        r"\[常见问题\]\(faq\.md\)",
-        "[常见问题](faq)",
-        body,
-    )
-    body = re.sub(
-        r"\[端到端指南\]\(guide\.md\)",
-        "[端到端指南](guide)",
-        body,
-    )
-    body = re.sub(
-        r"\[端到端流程\]\(guide\.md\)",
-        "[端到端流程](guide)",
-        body,
-    )
-    body = re.sub(
-        r"\[卡面联名定制\]\(customization\.md\)",
-        "[卡面联名定制](customization)",
-        body,
-    )
-    body = re.sub(
-        r"\[Co-branded customization\]\(customization\.md\)",
-        "[Co-branded customization](customization)",
-        body,
-    )
-    body = re.sub(
-        r"\[End-to-end flow\]\(guide\.md\)",
-        "[End-to-end flow](guide)",
-        body,
-    )
-    return body
+    """Rewrite GitHub-relative .md links for the rendered URL layout.
+
+    Every page renders at /<locale>/<slug>/ (the index at /<locale>/), so a
+    browser-relative link must climb `depth` levels back to the locale root
+    before descending into the target slug. Source links are relative to the
+    source file's own directory; we resolve them to a target slug and re-root.
+    """
+    depth = 0 if slug == "index" else slug.count("/") + 1
+    up = "../" * depth
+    cur_dir = posixpath.dirname(slug)
+
+    def repl(m: "re.Match[str]") -> str:
+        text, target = m.group(1), m.group(2)
+        if target in SECTION_LANDING:
+            dest = SECTION_LANDING[target]
+            return f"[{dest.split('/')[0].capitalize()}]({up}{dest})"
+        path, sep, anchor = target.partition("#")
+        if not path.endswith(".md"):
+            return m.group(0)  # external / asset / anchor-only — leave as-is
+        resolved = posixpath.normpath(posixpath.join(cur_dir, path[:-3]))
+        if posixpath.basename(resolved).lower() == "readme":
+            new_target = up or "./"  # the locale-root overview page
+        else:
+            new_target = f"{up}{resolved}"
+        return f"[{text}]({new_target}{sep}{anchor})"
+
+    return LINK_RE.sub(repl, body)
 
 
 def parse_markdown(text: str) -> tuple[str, str]:
