@@ -1,4 +1,4 @@
-# Turn on-chain incentives into an offline campaign only real users can join
+# Overview
 
 **A physical gift card as the entry ticket + complete tasks to unlock the rest + real-user data fed back to you. Bots can't get a card, let alone finish the tasks.**
 
@@ -129,12 +129,10 @@ The contracts are fully public — independent audit or self-audit welcome. Spec
 
 ## Next
 
-- [Use-case library](../use-cases.md): 24 scenarios across growth, commerce, payouts, and consumer gifting — find the one that fits you
 - [End-to-end flow](guide.md): ordering, designing tasks, receiving cards, locking, distributing, reclaiming — every step
 - [Co-branded customization](customization.md): reserved areas, customizable items, finishing, MOQ, process
 - [FAQ](faq.md): tasks, data, compliance, breakage, multi-chain, and more
 - [Security model](../security.md): safeguards, contract guarantees, audit status
-- [Developers](../developers.md): architecture, interfaces, and the open-source repo
 - [contact.md](../contact.md): business inquiries / bulk orders / ecosystem partnerships
 
 > Want the task-card contract mechanics (basic amount + task amounts, unlock preimages, address binding)? See the [open-source repo](https://github.com/hongbao-labs/contracts).

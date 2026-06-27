@@ -46,4 +46,4 @@
 - **DOA（到货即损坏）**——到货时就无法使用的卡，按商务合同里的 DOA 政策处理。
 - **Onboarding**——引导新用户开好钱包 / 交易所账号，让他有一个能收款的地址。
 
-> 没找到某个词？看看[安全模型](security.md)、[开发者页](developers.md)，或邮件 dev@hongbao.digital。
+> 没找到某个词？看看[安全模型](security.md)或[开源仓库](https://github.com/hongbao-labs/contracts)，或邮件 dev@hongbao.digital。

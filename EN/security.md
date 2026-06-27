@@ -55,4 +55,4 @@ Found a vulnerability, a cryptographic concern, or a contract risk? Email **secu
 
 - [Cardholder FAQ → Security](receiver/faq.md) — plain-language answers for people who received a card
 - [Issuer FAQ → Contract / Legal & Compliance](issuer/faq.md) — answers for distributors
-- [Developers](developers.md) — interfaces, events, and the open-source repo
+- [Open-source repo](https://github.com/hongbao-labs/contracts) — interfaces, events, and contracts for builders

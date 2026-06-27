@@ -1,4 +1,4 @@
-# Cardholder FAQ
+# FAQ
 
 ## Security
 

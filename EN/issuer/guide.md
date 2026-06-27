@@ -1,4 +1,4 @@
-# Issuer End-to-End Flow
+# Flow
 
 From order to cardholder claim, the flow looks like this. **All contract interactions are integrated into the Hongbao Web Dapp — issuers do not need to write scripts, call contracts directly, or deploy a Factory / Pool**. Every on-chain action is triggered through the frontend UI.
 

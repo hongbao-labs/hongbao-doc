@@ -1,6 +1,6 @@
-# You've Got a Hongbao Card
+# Overview
 
-**Scan, press, done — assets arrive in seconds.**
+**You've got a Hongbao card. Scan, press, done — assets arrive in seconds.**
 
 The card holds on-chain assets — these could be stablecoins (USDT / USDC), popular tokens (ETH / BNB / SOL), NFTs, or any ERC20 / ERC721 or other tokens issued by the issuer. **What's inside and how much is decided by the issuer — the App will show you the details once it connects to your card.**
 

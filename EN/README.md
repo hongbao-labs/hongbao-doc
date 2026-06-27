@@ -81,24 +81,13 @@ The card itself is chain-agnostic — it does ECDSA over a 32-byte digest and do
 **Live today**: the full EVM family (ERC20 + ERC721 standard contracts).
 **Opened on demand**: Bitcoin, Solana, Sui, Aptos, Cosmos, and other ecosystems.
 
-## Roadmap
-
-Hongbao rolls out in two phases:
-
-- **Phase 1 — Business** *(current focus)*. Selling to asset distributors — Web3 projects, L1/L2 foundations, exchanges, and wallets. The growth-and-acquisition scenarios come first: sybil-proof airdrops, conferences and IRL events, quests, ambassador kits.
-- **Phase 2 — Consumer**. Bringing Hongbao to everyday people: retail crypto gift cards on the shelf at the grocery and convenience store, digital red packets for holidays and occasions, and individual gifting. Retail is not open yet — [join the waitlist](contact.md).
-
-See the full [use-case library](use-cases.md) for where each scenario fits.
-
 ## Documentation map
 
 | You are | Read |
 |---|---|
-| Wondering where Hongbao fits | [use-cases.md](use-cases.md) — 24 scenarios where a physical card beats a bare wallet address |
 | Someone who received a card | [receiver/](receiver/) — how to claim, why it's safe, what to do if you lose it |
 | A project / company / retail user who wants to distribute assets with Hongbao | [issuer/](issuer/) — how it differs from gift cards, the workflow, customization options |
 | Wanting to understand the security model | [security.md](security.md) — safeguards, contract guarantees, audit status, disclosure |
-| A developer building on the protocol | [developers.md](developers.md) — architecture, interfaces, events, and the open-source repo |
 | Hitting an unfamiliar term | [glossary.md](glossary.md) — plain-language definitions |
 
 ## Contact

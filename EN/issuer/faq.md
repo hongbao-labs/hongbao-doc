@@ -1,4 +1,4 @@
-# Issuer FAQ
+# FAQ
 
 ## Contract
 

@@ -1,4 +1,4 @@
-# Claim Guide
+# Claim
 
 The whole process takes about 1 minute. Before you start, you'll need:
 

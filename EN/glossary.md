@@ -46,4 +46,4 @@ Plain-language definitions of the terms used across these docs.
 - **DOA (Dead on Arrival)** — a card that arrives non-functional; handled per the commercial contract's DOA policy.
 - **Onboarding** — guiding a new user to set up a wallet/exchange account so they have an address to receive into.
 
-> Don't see a term? Check the [security model](security.md), the [developer page](developers.md), or email dev@hongbao.digital.
+> Don't see a term? Check the [security model](security.md) or the [open-source repo](https://github.com/hongbao-labs/contracts), or email dev@hongbao.digital.

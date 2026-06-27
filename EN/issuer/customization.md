@@ -1,4 +1,4 @@
-# Co-Branded Card Face Customization
+# Customization
 
 **Most of a Hongbao card face is open canvas — yours to brand.** Only a small set of required elements stay reserved, so cardholders can recognize a trusted Hongbao card and claim without friction.
 
