@@ -61,7 +61,7 @@ Each card contains a tamper-resistant secure element that, at the factory, gener
 
 The issuer locks assets to this address (held in escrow by the protocol contract) and mails the physical card to the recipient. The recipient scans, connects over Bluetooth, enters a recipient address, and presses the button on the card to authorize the signature — and the assets move to the recipient's chosen wallet. The card signs exactly once, then physically retires.
 
-**Task cards add one layer**: that single signature claims the basic amount and locks the recipient address onto the card; thereafter, each time the user completes a task, they unlock the corresponding amount with a task preimage, and the funds flow automatically to the already-locked address. Even a leaked preimage can't be hijacked — the funds can only go to that locked address. Contract mechanics are in the open-source repo (https://github.com/hongbao-labs/contracts).
+**Task cards add one layer**: that single signature claims the basic amount and locks the recipient address onto the card; thereafter, each time the user completes a task, they unlock the corresponding amount with a task preimage, and the funds flow automatically to the already-locked address. Even a leaked preimage can't be hijacked — the funds can only go to that locked address. Contract mechanics are in the [open-source repo](https://github.com/hongbao-labs/contracts).
 
 No link in the chain — the Bluetooth channel, the network path, the gas-paying relayer — **can** alter the recipient address, double-spend the assets, or seize them before expiry. These constraints are written into cryptography and public contracts, not anyone's verbal promise.
 

@@ -26,8 +26,8 @@ Hongbao is an on-chain asset-distribution protocol in the shape of a physical ca
 | Building on the protocol | [Developers](EN/developers.md) | [开发者](CN/developers.md) |
 | Glossary | [Glossary](EN/glossary.md) | [术语表](CN/glossary.md) |
 
-- **Source code:** https://github.com/hongbao-labs/contracts
-- **Privacy policy:** https://hongbao.digital/#/privacy
+- **Source code:** [github.com/hongbao-labs/contracts](https://github.com/hongbao-labs/contracts)
+- **Privacy policy:** [hongbao.digital/#/privacy](https://hongbao.digital/#/privacy)
 - **Contact:** [English](EN/contact.md) · [中文](CN/contact.md)
 
 > *Embrace Good Fortune. 拥抱好运。*

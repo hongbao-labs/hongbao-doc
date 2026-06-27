@@ -12,7 +12,7 @@
 不能。如果你能提前赎回，就意味着你随时能让用户的"礼物"作废，这违背了红包的根本承诺。如果你需要这种能力，请重新评估是否适合用 Hongbao。
 
 **Q：合约审计了吗？**
-还没有第三方审计。团队本身有安全背景，合约由资深审计员设计并内部评审。第三方审计已在计划中，具体时间取决于订单规模和客户需求，报告就绪后会在此公布。代码完全公开 https://github.com/hongbao-labs/contracts，欢迎自审或委托独立审计。
+还没有第三方审计。团队本身有安全背景，合约由资深审计员设计并内部评审。第三方审计已在计划中，具体时间取决于订单规模和客户需求，报告就绪后会在此公布。代码完全公开 [github.com/hongbao-labs/contracts](https://github.com/hongbao-labs/contracts)，欢迎自审或委托独立审计。
 
 **Q：合约会扣手续费吗？**
 不会。链上零手续费、零抽成，这是刻意为之。Hongbao 不接触发卡方资金，整个流程在链上、资金由发卡方自己掌控。我们的收入来自硬件销售、项目方定制服务费，以及 App 内与钱包、交易所等生态的合作分成，全部在协议层之外，和发卡方的资金完全解耦。
@@ -23,7 +23,7 @@
 ## 关于流程
 
 **Q：approve / batchDeposit / 部署 Pool 这些链上操作我自己要写脚本吗？**
-不需要。Web Dapp 已经把 Factory 部署、Pool 创建、approve、批量 deposit、批量 withdrawExpired 全部封装在按钮背后——你连接 deposit 钱包、上传批次 JSON、设参数、点 Lock 就行。如果你的团队希望直接走合约层 / 自建 issuer 客户端，参考开源仓库（https://github.com/hongbao-labs/contracts）。
+不需要。Web Dapp 已经把 Factory 部署、Pool 创建、approve、批量 deposit、批量 withdrawExpired 全部封装在按钮背后——你连接 deposit 钱包、上传批次 JSON、设参数、点 Lock 就行。如果你的团队希望直接走合约层 / 自建 issuer 客户端，参考[开源仓库](https://github.com/hongbao-labs/contracts)。
 
 **Q：一笔交易能发多少张？**
 不需要你关心。Web Dapp 会按目标链 gas limit 自动拆分批次，每笔进度实时回显，失败可重试。底层约束是单笔 batch 受目标链 gas limit 限制，Web Dapp 会按链自动适配批次大小。
@@ -40,7 +40,7 @@
 可以。在 Web Dapp 同一批次里再做一次 deposit 即可，过期时间以首次为准（合约层面忽略续充传入的新 lockTime）。
 
 **Q：多个 depositor 给同一张卡充值这种高级用法支持吗？**
-合约层支持（"开放模式" Pool），Web Dapp 当前不直接暴露这条路径。需要的开发者团队走合约层，详见开源仓库（https://github.com/hongbao-labs/contracts）。
+合约层支持（"开放模式" Pool），Web Dapp 当前不直接暴露这条路径。需要的开发者团队走合约层，详见[开源仓库](https://github.com/hongbao-labs/contracts)。
 
 **Q：用户没领的钱我多久能拿回来？**
 deposit 时设置的 `lockTime` 到期后（最少 30 天）。在 Web Dapp 点 Withdraw Expired，资产立刻回到你的钱包。
@@ -79,10 +79,10 @@ deposit 时设置的 `lockTime` 到期后（最少 30 天）。在 Web Dapp 点 
 不必须。`withdraw(unlockAddress, to, v, r, s)` 没有 `msg.sender` 限制，任何 EOA 都能提交。可以用我们的（默认）、自己运营、或者让用户的 App 直接用其他钱包提交（前提是用户/你出 gas）。
 
 **Q：用你们的 Relayer 收钱吗？**
-默认我们替你出 gas，目前不收费，这是早期推广，未来可能加 fair-use 政策。如果你的发放规模大、有 SLA 要求，建议自托管 Relayer。具体见开源仓库（https://github.com/hongbao-labs/contracts）。
+默认我们替你出 gas，目前不收费，这是早期推广，未来可能加 fair-use 政策。如果你的发放规模大、有 SLA 要求，建议自托管 Relayer。具体见[开源仓库](https://github.com/hongbao-labs/contracts)。
 
 **Q：能不能让用户自己出 gas？**
-合约层不限制谁来提交（`withdraw` 没有 `msg.sender` 检查）。Hongbao 官方 App 默认走 Relayer 代付——这是标准持卡人体验。如果你的团队基于合约 ABI 自建客户端，可以让用户连自己的钱包付 gas（详见开源仓库 https://github.com/hongbao-labs/contracts），但用户体验会差一截，而且要求用户钱包里有 native 币。
+合约层不限制谁来提交（`withdraw` 没有 `msg.sender` 检查）。Hongbao 官方 App 默认走 Relayer 代付——这是标准持卡人体验。如果你的团队基于合约 ABI 自建客户端，可以让用户连自己的钱包付 gas（详见[开源仓库](https://github.com/hongbao-labs/contracts)），但用户体验会差一截，而且要求用户钱包里有 native 币。
 
 ## 关于损耗与售后
 

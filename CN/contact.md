@@ -9,4 +9,4 @@
 | **安全披露** | security@hongbao.digital —— 漏洞、密码学问题、合约风险 |
 | **通用咨询** | hello@hongbao.digital —— 其他任何事项 |
 
-**隐私政策：** https://hongbao.digital/#/privacy
+**隐私政策：** [hongbao.digital/#/privacy](https://hongbao.digital/#/privacy)

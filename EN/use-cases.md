@@ -174,5 +174,5 @@ The thread running through all of them is the same primitive — **a bearer obje
 |---|---|
 | A project / company / retailer who wants to run one of these | [issuer/](issuer/) — how it differs from gift cards, the workflow, customization |
 | Someone who received a card | [receiver/](receiver/) — how to claim, why it's safe, what to do if you lose it |
-| A developer building on the protocol | the open-source repo (https://github.com/hongbao-labs/contracts) |
+| A developer building on the protocol | the [open-source repo](https://github.com/hongbao-labs/contracts) |
 | Looking to talk business | [contact.md](contact.md) — bulk orders / ecosystem partnerships |

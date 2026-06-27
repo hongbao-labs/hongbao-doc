@@ -13,7 +13,7 @@
 8. （可选）过期未领份额一键赎回
 ```
 
-> 普通卡（plain card）走 1→3→4→5→6→7（一次领全额）即可；任务卡（task card）多出第 2 步活动设计与第 7 步任务解锁。想绕过 Web Dapp、直接走合约层 / 自建客户端的开发者团队，参考开源仓库（https://github.com/hongbao-labs/contracts）。本文面向项目方运营 / 商务侧，按 Web Dapp 流程描述。
+> 普通卡（plain card）走 1→3→4→5→6→7（一次领全额）即可；任务卡（task card）多出第 2 步活动设计与第 7 步任务解锁。想绕过 Web Dapp、直接走合约层 / 自建客户端的开发者团队，参考[开源仓库](https://github.com/hongbao-labs/contracts)。本文面向项目方运营 / 商务侧，按 Web Dapp 流程描述。
 
 ---
 
@@ -93,7 +93,7 @@
 - 设置基础份额 + 任务列表：每个任务对应一个金额和一个完成条件（关注 / 转推 / 进群 / 链上活跃度认证等，最多 255 个）
 - 生成任务承诺：Web Dapp 为每张卡的每个任务生成一个预映像 `n`，把对应的哈希写进合约（`batchDepositWithTasks`）。预映像由你掌控，可托管在 Hongbao Web，也可导出到你自己的后台
 
-> 任务卡总额 = 基础份额 + Σ 任务份额。任务槽创建后不可变；续充只进基础份额。机制详见开源仓库（https://github.com/hongbao-labs/contracts）。
+> 任务卡总额 = 基础份额 + Σ 任务份额。任务槽创建后不可变；续充只进基础份额。机制详见[开源仓库](https://github.com/hongbao-labs/contracts)。
 
 ## 5. 派发
 

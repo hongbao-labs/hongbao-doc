@@ -9,4 +9,4 @@
 | **Security disclosure** | security@hongbao.digital — Vulnerabilities, cryptography questions, contract risks |
 | **General inquiries** | hello@hongbao.digital — Anything else |
 
-**Privacy policy:** https://hongbao.digital/#/privacy
+**Privacy policy:** [hongbao.digital/#/privacy](https://hongbao.digital/#/privacy)

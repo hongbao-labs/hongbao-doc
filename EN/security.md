@@ -45,7 +45,7 @@ For task cards, funds are split into a basic amount and task amounts. Even if a 
 
 ## Audit status
 
-The contracts are **fully public** at https://github.com/hongbao-labs/contracts — anyone is welcome to review them or commission an independent audit. The team has a security background, and the contracts were designed and internally reviewed by a senior auditor. A third-party audit is planned; timing is gated on order volume and client requirements. We will list the audit report here once it is available.
+The contracts are **fully public** at [github.com/hongbao-labs/contracts](https://github.com/hongbao-labs/contracts) — anyone is welcome to review them or commission an independent audit. The team has a security background, and the contracts were designed and internally reviewed by a senior auditor. A third-party audit is planned; timing is gated on order volume and client requirements. We will list the audit report here once it is available.
 
 ## Responsible disclosure
 

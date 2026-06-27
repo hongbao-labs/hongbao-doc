@@ -174,5 +174,5 @@
 |---|---|
 | 想跑其中某个场景的项目方 / 企业 / 零售商 | [issuer/](issuer/) — 与传统礼品卡的差异、流程、定制 |
 | 拿到一张卡的人 | [receiver/](receiver/) — 怎么领、为什么安全、丢了怎么办 |
-| 想基于协议开发的开发者 | 开源仓库（https://github.com/hongbao-labs/contracts） |
+| 想基于协议开发的开发者 | [开源仓库](https://github.com/hongbao-labs/contracts) |
 | 想谈商务合作 | [contact.md](contact.md) — 批量采购 / 生态合作 |

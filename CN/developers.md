@@ -2,7 +2,7 @@
 
 Hongbao 的链上层**完全开放**。标准合约和签名规范是 Hongbao 作为生态协议的根基——钱包、交易所、Dapp 都可以基于它们集成或扩展，任何人都可以部署、fork 或审计这些合约。
 
-> **源代码：** https://github.com/hongbao-labs/contracts —— 协议接口、合约、安全模型与设计原理。
+> **源代码：** [github.com/hongbao-labs/contracts](https://github.com/hongbao-labs/contracts) —— 协议接口、合约、安全模型与设计原理。
 
 ---
 

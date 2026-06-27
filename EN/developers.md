@@ -2,7 +2,7 @@
 
 Hongbao's on-chain layer is **fully open**. The standard contract and signature spec are the foundation of Hongbao as an ecosystem protocol — wallets, exchanges, and dapps can integrate or extend against them, and anyone can deploy, fork, or audit the contracts.
 
-> **Source code:** https://github.com/hongbao-labs/contracts — interfaces, contracts, security model, and design rationale.
+> **Source code:** [github.com/hongbao-labs/contracts](https://github.com/hongbao-labs/contracts) — interfaces, contracts, security model, and design rationale.
 
 ---
 
