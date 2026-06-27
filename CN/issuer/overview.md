@@ -14,7 +14,7 @@ Hongbao 让项目方用一张实体卡组织线下增长活动：把代币装进
 
 你在 quest 平台办活动，花钱买"完成任务的用户"，但其中大部分是脚本农场：
 
-- Sybil 攻击者拿走了某些大型空投 48% 的 token（[Cointelegraph 报道](https://cointelegraph.com/news/token-airdrops-targeted-farm-accounts-sybil-attacks)）
+- Sybil 攻击者拿走了某些大型空投 48% 的 token（[BlockEden 报道](https://blockeden.xyz/blog/2026/01/27/airdrop-season-2026-opensea-base-polymarket-hyperliquid-guide/)）
 - 行业调研显示，airdrop "eligible" 钱包里 70% 是假的（Cookie3）
 - 一个项目往往要靠 IP 聚类、钱包图谱过滤几十万个 sybil 地址，才能勉强清场（[Sybil 综述](https://integral.xyz/blog/sybil-attacks)）
 

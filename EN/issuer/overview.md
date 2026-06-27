@@ -14,7 +14,7 @@ Hongbao lets a project run an offline growth campaign with a single physical car
 
 You run a campaign on a quest platform, paying for "users who completed tasks" — but most of them are script farms:
 
-- Sybil attackers captured **48% of the tokens** in some large airdrops ([Cointelegraph](https://cointelegraph.com/news/token-airdrops-targeted-farm-accounts-sybil-attacks))
+- Sybil attackers captured **48% of the tokens** in some large airdrops ([BlockEden](https://blockeden.xyz/blog/2026/01/27/airdrop-season-2026-opensea-base-polymarket-hyperliquid-guide/))
 - Industry research: **70% of "eligible" airdrop wallets are fake** (Cookie3)
 - A single project has to filter hundreds of thousands of sybil addresses via IP clustering and wallet-graph analysis just to barely clear the field ([sybil overview](https://integral.xyz/blog/sybil-attacks))
 
