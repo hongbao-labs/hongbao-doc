@@ -108,7 +108,7 @@
 
 ## 6. 持卡人领取
 
-详见 [持卡人领取指南](../receiver/guide.md)。
+详见 [持卡人领取指南](../receiver/claim.md)。
 
 链上交易通过 Hongbao 官方 Relayer（默认）或自托管 Relayer 提交，你不需要在领取流程中做任何事。
 

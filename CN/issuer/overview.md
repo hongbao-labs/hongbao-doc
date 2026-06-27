@@ -94,7 +94,7 @@ Hongbao 让项目方用一张实体卡组织线下增长活动：把代币装进
 8. 看板实时追踪参与与画像；过期未领份额一键赎回
 ```
 
-链上动作（Factory / Pool 部署、approve、batchDepositWithTasks、claimTask、withdrawExpired）全部由 Web Dapp 封装在按钮背后，不需要写脚本。详细流程见 [端到端指南](guide.md)；开发者团队参考[开源仓库](https://github.com/hongbao-labs/contracts)。
+链上动作（Factory / Pool 部署、approve、batchDepositWithTasks、claimTask、withdrawExpired）全部由 Web Dapp 封装在按钮背后，不需要写脚本。详细流程见 [端到端指南](flow.md)；开发者团队参考[开源仓库](https://github.com/hongbao-labs/contracts)。
 
 ## 商业模式
 
@@ -119,7 +119,7 @@ Hongbao 链上零费用，合约层和 Relayer 都不收手续费。你的成本
 
 ## 接下来
 
-- [端到端流程](guide.md)：下单、设计任务、收卡、锁定、派发、赎回每一步
+- [端到端流程](flow.md)：下单、设计任务、收卡、锁定、派发、赎回每一步
 - [卡面联名定制](customization.md)：保留区域、可定制项、工艺、起订量、流程
 - [常见问题](faq.md)：任务、数据、合规、损耗、多链等
 - [安全模型](../security.md)：安全保障、合约保证、审计状态

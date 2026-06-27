@@ -1,6 +1,6 @@
 # Overview
 
-**A physical gift card as the entry ticket + complete tasks to unlock the rest + real-user data fed back to you. Bots can't get a card, let alone finish the tasks.**
+**A physical gift card as the entry ticket + tasks to unlock the rest + real-user data fed back to you. Bots can't get a card, let alone finish the tasks.**
 
 Hongbao lets a project run an offline growth campaign with a single physical card: load tokens into the card, set a batch of tasks (follow, retweet, join a group, on-chain interaction, etc.). The user gets a card — **the card itself is an anti-sybil identity ticket** — scans to claim a basic amount, and completes tasks to unlock more. When the campaign ends, what you walk away with isn't just "how much went out," but **who took part and what they look like on-chain**.
 
@@ -104,7 +104,7 @@ As users complete tasks, the App guides them to bind social accounts; the on-cha
 8. Track participation and profiles live on the dashboard; reclaim unredeemed amounts in one click after expiry
 ```
 
-On-chain actions (Factory / Pool deployment, approve, batchDepositWithTasks, claimTask, withdrawExpired) are all wrapped behind buttons in the Web Dapp — no scripting needed. Full flow in the [end-to-end guide](guide.md); developer teams refer to the [open-source repo](https://github.com/hongbao-labs/contracts).
+On-chain actions (Factory / Pool deployment, approve, batchDepositWithTasks, claimTask, withdrawExpired) are all wrapped behind buttons in the Web Dapp — no scripting needed. Full flow in the [end-to-end guide](flow.md); developer teams refer to the [open-source repo](https://github.com/hongbao-labs/contracts).
 
 ## Business model
 
@@ -129,7 +129,7 @@ The contracts are fully public — independent audit or self-audit welcome. Spec
 
 ## Next
 
-- [End-to-end flow](guide.md): ordering, designing tasks, receiving cards, locking, distributing, reclaiming — every step
+- [End-to-end flow](flow.md): ordering, designing tasks, receiving cards, locking, distributing, reclaiming — every step
 - [Co-branded customization](customization.md): reserved areas, customizable items, finishing, MOQ, process
 - [FAQ](faq.md): tasks, data, compliance, breakage, multi-chain, and more
 - [Security model](../security.md): safeguards, contract guarantees, audit status

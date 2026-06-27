@@ -2,9 +2,9 @@
 
 **You've got a Hongbao card. Scan, press, done — assets arrive in seconds.**
 
-The card holds on-chain assets — these could be stablecoins (USDT / USDC), popular tokens (ETH / BNB / SOL), NFTs, or any ERC20 / ERC721 or other tokens issued by the issuer. **What's inside and how much is decided by the issuer — the App will show you the details once it connects to your card.**
+The card holds on-chain assets — these could be stablecoins (USDT / USDC), popular tokens (ETH / BNB / SOL), NFTs, or any ERC20 / ERC721 or other tokens the issuer loads onto it. **What's inside and how much is decided by the issuer — the App will show you the details once it connects to your card.**
 
-It is **not a voucher, not points, not a coupon** — the card represents the actual on-chain assets themselves. Scan the QR code, press the button on the card, and the assets land in your wallet in seconds. You don't need to pay any gas, and you don't need to know anything about blockchain — see the [Claim Guide](guide.md).
+It is **not a voucher, not points, not a coupon** — the card represents the actual on-chain assets themselves. Scan the QR code, press the button on the card, and the assets land in your wallet in seconds. You don't need to pay any gas, and you don't need to know anything about blockchain — see the [Claim Guide](claim.md).
 
 ---
 
@@ -54,5 +54,5 @@ The smart contract holding your assets has no owner, no pause switch, and no upg
 
 ## What's Next
 
-→ [Claim Guide](guide.md) (three steps, about 1 minute)
+→ [Claim Guide](claim.md) (three steps, about 1 minute)
 → [FAQ](faq.md) (lost card, expiry, security, supported chains, and more)

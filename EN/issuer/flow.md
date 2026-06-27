@@ -108,7 +108,7 @@ The QR code points by default to `https://hongbao.digital/...` — scanning it g
 
 ## 6. Cardholder Claim
 
-See the [Cardholder Claim Guide](../receiver/guide.md).
+See the [Cardholder Claim Guide](../receiver/claim.md).
 
 On-chain transactions are submitted via the Hongbao official Relayer (default) or a self-hosted Relayer. You do not need to do anything during the claim flow.
 
