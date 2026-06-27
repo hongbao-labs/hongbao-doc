@@ -3,7 +3,7 @@
 ## Contract
 
 **Q: Does the contract have an owner? Can I control it?**
-No owner, no pause, no admin, no upgrades. We deliberately removed all privileged operations — this is both a trustless design choice and the path of least compliance friction. The only actions available to you are deposit and expiry reclaim.
+No owner, no pause, no admin, no upgrades. We deliberately removed all privileged operations: once deployed, the contract runs on its own and the issuer alone controls the funds — Hongbao cannot touch them. The only actions available to you are deposit and expiry reclaim.
 
 **Q: Can I set a shorter expiry, like 7 days?**
 No. `MIN_LOCK_TIME = 30 days` is a hardcoded contract constant. The reason: cardholders need sufficient time to claim, and a short lock period invites disputes between issuers and cardholders. If your campaign specifically requires a shorter window, you can fork the contract and modify it — but that is no longer our standard contract, and you will need to conduct your own audit.
@@ -12,10 +12,10 @@ No. `MIN_LOCK_TIME = 30 days` is a hardcoded contract constant. The reason: card
 No. If you could reclaim early, you could invalidate a user's gift at any time, which defeats the fundamental promise of a red packet. If you need that capability, please reconsider whether Hongbao is the right fit.
 
 **Q: Has the contract been audited?**
-No third-party audit yet. The team has a security background and the contract was designed and reviewed by a senior auditor internally. At this stage we have determined that a third-party audit is not cost-justified; we will revisit based on order volume and client requirements. The code is fully public at https://github.com/hongbao-labs/contracts — you are welcome to review it yourself or commission an independent audit.
+No third-party audit yet. The team has a security background and the contract was designed and reviewed by a senior auditor internally. A third-party audit is planned; timing is gated on order volume and client requirements, and we will publish the report here once it is available. The code is fully public at https://github.com/hongbao-labs/contracts — you are welcome to review it yourself or commission an independent audit.
 
 **Q: Does the contract take any fees?**
-None. Zero on-chain fees, zero protocol take — by design, to minimize compliance friction. Hongbao's revenue comes from hardware sales, issuer customization service fees, and ecosystem partnership revenue (wallets, exchanges, Dapps) — all **outside the protocol layer**, fully decoupled from issuer funds.
+None. Zero on-chain fees, zero protocol take — by design. Hongbao never touches issuer funds; the entire flow is on-chain and the issuer controls their own money. Our revenue comes from hardware sales, issuer customization service fees, and ecosystem partnership revenue (wallets, exchanges, Dapps) — all **outside the protocol layer**, fully decoupled from issuer funds.
 
 **Q: How will the contract be upgraded?**
 **It won't be.** A Pool is a one-time, immutable deployment. If issues are found or new features are needed in the future, we will deploy a new contract version (new Factory). Existing pools continue running under the logic they were deployed with; assets already deposited are unaffected.
@@ -66,7 +66,7 @@ After expiry, you run `withdrawExpired` to reclaim all remaining funds (unclaime
 Primarily public on-chain data: cardholder addresses, gas consumption, DEX interactions, and other behavioral signals derived from on-chain analytics. The Web dashboard tracks this in real time, supports export, and can generate analysis reports with one-click AI summarization.
 
 **Q: How is data privacy handled?**
-Tiered approach: a cardholder only binds a social account and unlocks a detailed profile when they **complete tasks**. Cardholders who do not engage with tasks are represented only by an on-chain address — no forced binding to real social identity. Privacy boundaries are governed by the user agreement.
+Tiered approach: a cardholder only binds a social account and unlocks a detailed profile when they **complete tasks**. Cardholders who do not engage with tasks are represented only by an on-chain address — no forced binding to real social identity. Privacy boundaries are governed by the [privacy policy](https://hongbao.digital/#/privacy).
 
 > The task system and data dashboard are still being built out; capabilities will roll out incrementally.
 
@@ -101,7 +101,7 @@ Approximately 3 years by design (negligible drain in deep sleep; minimal consump
 ## Legal and Compliance
 
 **Q: Who is responsible for compliance?**
-**You are.** We provide a trustless hardware and contract toolkit. The specific act of distribution — who receives what assets, in what amounts — is executed by you. Tax obligations, KYC, AML, and regional compliance requirements are your responsibility. Our contract charges no fees, holds no admin key, and retains no privileged access — by design, to minimize our own compliance surface. See your contract for specifics.
+**You are.** We provide a trustless hardware and contract toolkit. The specific act of distribution — who receives what assets, in what amounts — is executed by you. Tax obligations, KYC, AML, and regional compliance requirements are your responsibility. Our contract charges no fees, holds no admin key, and retains no privileged access: Hongbao never custodies or touches your funds — the whole flow is on-chain and you control your money throughout. See your contract for specifics.
 
 **Q: Do you retain records of cardholder claims?**
 Our Relayer maintains minimal operational logs for abuse prevention and troubleshooting, but we do not retain user information beyond what is operationally necessary. If you have concerns about these logs, self-host the Relayer.
@@ -127,4 +127,4 @@ They are **custodial** — the platform collects funds upfront and cardholders r
 ## More Questions?
 
 Business and purchasing: hello@hongbao.digital
-Technical questions: zwx@hongbao.digital
+Technical questions: dev@hongbao.digital

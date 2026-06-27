@@ -62,7 +62,7 @@ Upon receiving cards and JSON, run a verification pass:
 - **Spot check** (recommended): Randomly select a few cards, use the Hongbao-provided tool to read each card's on-chain address, and compare against the `card_address` in the JSON.
 - **Full verification**: For batches with especially large asset values, run a full sweep.
 
-> Verification tool not yet publicly available. For verification needs, contact hello@hongbao.digital.
+> The verification tool is not yet publicly available. For verification needs, contact hello@hongbao.digital.
 
 Once confirmed, proceed to the next step.
 

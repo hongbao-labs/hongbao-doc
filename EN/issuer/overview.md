@@ -1,6 +1,6 @@
 # Turn on-chain incentives into an offline campaign only real users can join
 
-**A physical gift card as the entry ticket + complete tasks to unlock allocation + real-user data fed back to you. Bots can't get a card, let alone finish the tasks.**
+**A physical gift card as the entry ticket + complete tasks to unlock the rest + real-user data fed back to you. Bots can't get a card, let alone finish the tasks.**
 
 Hongbao lets a project run an offline growth campaign with a single physical card: load tokens into the card, set a batch of tasks (follow, retweet, join a group, on-chain interaction, etc.). The user gets a card — **the card itself is an anti-sybil identity ticket** — scans to claim a basic amount, and completes tasks to unlock more. When the campaign ends, what you walk away with isn't just "how much went out," but **who took part and what they look like on-chain**.
 
@@ -18,7 +18,7 @@ You run a campaign on a quest platform, paying for "users who completed tasks" �
 - Industry research: **70% of "eligible" airdrop wallets are fake** (Cookie3)
 - A single project has to filter hundreds of thousands of sybil addresses via IP clustering and wallet-graph analysis just to barely clear the field ([sybil overview](https://integral.xyz/blog/sybil-attacks))
 
-No matter how you design the online tasks, you cannot stop **one person controlling ten thousand wallets**.
+No matter how you design the online tasks, you cannot stop **one person from controlling ten thousand wallets**.
 
 ### 2. Once the tokens are out, you have no idea who your users are
 
@@ -69,7 +69,7 @@ As users complete tasks, the App guides them to bind social accounts; the on-cha
 - **On-chain profile**: user address, gas spend, DEX interactions, and other behavior (all public on-chain data)
 - **Real-time tracking + data export + one-click AI-generated analysis**
 
-**Data is tiered by participation**: a detailed profile unlocks only when the user completes tasks; if they don't, all we get is an on-chain address — no real social identity is forced. The privacy boundary is set by the user agreement.
+**Data is tiered by participation**: a detailed profile unlocks only when the user completes tasks; if they don't, all we get is an on-chain address — no real social identity is forced. The privacy boundary is set by the [privacy policy](https://hongbao.digital/#/privacy).
 
 ---
 
@@ -129,9 +129,12 @@ The contracts are fully public — independent audit or self-audit welcome. Spec
 
 ## Next
 
+- [Use-case library](../use-cases.md): 24 scenarios across growth, commerce, payouts, and consumer gifting — find the one that fits you
 - [End-to-end flow](guide.md): ordering, designing tasks, receiving cards, locking, distributing, reclaiming — every step
 - [Co-branded customization](customization.md): reserved areas, customizable items, finishing, MOQ, process
 - [FAQ](faq.md): tasks, data, compliance, breakage, multi-chain, and more
+- [Security model](../security.md): safeguards, contract guarantees, audit status
+- [Developers](../developers.md): architecture, interfaces, and the open-source repo
 - [contact.md](../contact.md): business inquiries / bulk orders / ecosystem partnerships
 
 > Want the task-card contract mechanics (basic amount + task amounts, unlock preimages, address binding)? See the open-source repo (https://github.com/hongbao-labs/contracts).

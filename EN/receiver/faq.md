@@ -3,7 +3,7 @@
 ## Security
 
 **Q: Can the private key on my card be stolen?**
-The private key is generated randomly inside the chip at the time of manufacture and never leaves it. The card manufacturer, the card issuer, Hongbao, and you yourself have no way to read it out. The chip is designed with protections against side-channel attacks and physical disassembly.
+The private key is generated randomly inside the chip at the time of manufacture and never leaves it. The card manufacturer, the card issuer, Hongbao, and you yourself have no way to read it. The chip is designed with protections against side-channel attacks and physical disassembly.
 
 **Q: Could someone secretly connect to my card via Bluetooth nearby and transfer my funds?**
 No. It takes two physical button presses: hold for 3 seconds to confirm the connection, then hold again for 10 seconds to authorize the signature. Nobody can press the button for you over the air.
@@ -34,12 +34,12 @@ No. The funds unlocked by tasks **can only be sent to the address you locked in 
 Any task amounts you haven't claimed by the expiry date will be reclaimed by the card issuer — **this does not affect what you've already received**. We recommend completing your tasks before the expiry date.
 
 **Q: Do I have to link my social accounts to do tasks?**
-Completing tasks requires you to link the relevant accounts through the App (for example, to verify that you followed a particular account on X). If you only want to claim the basic amount and skip the tasks, you don't need to link any real social identity. See the user agreement for details on what data is used.
+Completing tasks requires you to link the relevant accounts through the App (for example, to verify that you followed a particular account on X). If you only want to claim the basic amount and skip the tasks, you don't need to link any real social identity. See the [privacy policy](https://hongbao.digital/#/privacy) for details on what data is used.
 
 ## Using your card
 
 **Q: Do I need to pay gas to claim?**
-No, you don't pay anything. The card issuer covers gas by default through Hongbao's or their own relay. Even if no relay is available, anyone who has gas (including yourself using another wallet) can submit your signed transaction on-chain.
+No, you don't pay anything. The card issuer covers gas by default, through Hongbao's relay or their own. Even if no relay is available, anyone who has gas (including yourself using another wallet) can submit your signed transaction on-chain.
 
 **Q: I don't have a crypto wallet — can I still claim?**
 Yes. The App will guide you through setting up an account with a mainstream crypto wallet or exchange to get a receiving address, then bring you back to Hongbao to complete the claim.
@@ -49,10 +49,10 @@ Your wallet private key or exchange account is always managed by the respective 
 **Q: Can I claim assets directly to a centralized exchange deposit address?**
 It depends on the asset type:
 
-- **ERC20 tokens** (USDT, USDC, etc.): Usually yes — the contract's withdraw call uses `token.transfer`, which most exchanges can recognize.
-- **ERC721 NFTs**: **Do not do this** — most exchange deposit addresses do not implement `onERC721Received`, so the signature will be consumed but the NFT will not transfer, and the card will become unusable.
+- **Tokens** (USDT, USDC, etc.): usually fine — most exchanges can receive them.
+- **NFTs**: **do not do this.** Many exchange deposit addresses can't receive NFTs, so the card would be spent without the NFT arriving — leaving you with nothing to claim.
 
-If you came through the Hongbao App's onboarding flow, the App will automatically check address compatibility based on the asset type on your card — just follow the prompts. If you're pasting an exchange address manually, we recommend using a self-custody wallet instead; only use an exchange address if you're sure the asset is ERC20 and the exchange supports contract-initiated transfers.
+If you came through the Hongbao App's onboarding flow, the App checks address compatibility for you based on what's on your card — just follow the prompts. If you're pasting an exchange address by hand, we recommend a self-custody wallet instead, and only use an exchange address for standard tokens (not NFTs).
 
 **Q: Can I split the assets on one card across multiple addresses?**
 No. The card can only be signed once, and you must specify a single receiving address at that time.
@@ -107,4 +107,4 @@ Which chain a specific card uses is determined by the card issuer; the App will 
 
 ## Still have questions?
 
-Reach out to the card issuer — they know their campaign best. For product or technical questions, see the [open-source repo](https://github.com/hongbao-labs/contracts) or email zwx@hongbao.digital.
+Reach out to the card issuer — they know their campaign best. For product or technical questions, see the [open-source repo](https://github.com/hongbao-labs/contracts) or email dev@hongbao.digital.
