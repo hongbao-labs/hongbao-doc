@@ -1,58 +1,58 @@
-# Security
+# Security Model
 
-Hongbao's security rests on one principle: **trust is replaced by cryptography and public contracts, not promises.** Hongbao the company never holds a private key and never touches issuer or cardholder funds — the entire flow runs on-chain, and the issuer controls their own money throughout.
+Hongbao's security rests on a single principle: **replace trust with cryptography and public contracts instead of relying on promises.** The company holds no private keys and never touches issuer or cardholder funds; the entire flow runs on-chain, and funds stay under the issuer's own control throughout.
 
-This page consolidates the security model. Cardholder-facing answers live in the [cardholder FAQ](receiver/faq.md); issuer-facing answers in the [issuer FAQ](issuer/faq.md).
+This page consolidates Hongbao's product security model. For what the cardholder actually experiences, see the [cardholder FAQ](receiver/faq.md); for issuer operations and compliance, see the [issuer FAQ](issuer/faq.md).
 
 ---
 
-## The four safeguards
+## Four independent lines of defense
 
-Any one of these alone is enough to keep a card's assets from being stolen:
+Each line of defense below stands on its own — any one is enough to stop a card's assets from being stolen:
 
-1. **The private key never leaves the chip.** It is generated in-chip by a hardware TRNG at the factory and physically sealed. No one — not the manufacturer, not the issuer, not Hongbao, not the cardholder — can read it out.
-2. **A physical button press is required.** A wireless intercept goes nowhere: no press, no signature. Connecting takes a 3-second hold; authorizing the signature takes a 10-second hold.
-3. **The recipient address is signed.** The address the cardholder enters is part of the signed payload. Change it and the signature is invalid — the contract rejects it outright. No relayer or intermediary can redirect the funds.
-4. **The card signs exactly once.** After it signs, the firmware refuses to sign again and the contract marks the card claimed. A used card is a keepsake with nothing left to take.
+1. **The private key never leaves the chip.** At the factory, the private key is generated at random by the chip's hardware TRNG and physically sealed permanently. No one — not the card manufacturer, not the issuer, not Hongbao, not the cardholder — can read it out.
+2. **Physical button authorization is required.** A BLE hijack gets nowhere on its own: no button confirmation, no signature. Connecting requires a 3-second press; authorizing a signature requires a 10-second press.
+3. **The recipient address is written into the signed payload.** The address the cardholder enters is part of what gets signed; tamper with it and the signature becomes instantly invalid, and the contract rejects it outright. No Relayer or intermediary can redirect the funds to another address.
+4. **A card can sign only once.** Once it has signed, the firmware refuses to sign again and the contract marks that card as claimed. A claimed card retains only sentimental value — no extractable assets remain inside it.
 
 ## Contract-layer guarantees
 
-- **No owner, no admin, no pause, no upgrade.** Every privileged operation was deliberately removed. The only actions that exist are *deposit* (issuer locks funds) and *expiry reclaim* (issuer recovers unclaimed funds after the lock period).
-- **The issuer cannot claw back claimable funds before expiry.** Once locked, a gift cannot be voided — this is the core promise of a red packet, enforced by code.
-- **Minimum 30-day lock.** `MIN_LOCK_TIME = 30 days` is a hardcoded constant, giving cardholders time to claim.
-- **Immutable deployment.** A Pool is deployed once and never changed. New features ship as new contract versions; existing pools keep running exactly as deployed, and deposited assets are unaffected.
+- **No owner, no admin, no pause, no upgrade.** Every privileged operation was deliberately removed. The contract keeps only two core actions: deposit (the issuer locks funds) and reclaim after expiry (once the lock period ends, the issuer recovers any unclaimed funds).
+- **Before expiry, the issuer cannot take back claimable funds.** Once funds are locked, the gift cannot be voided — this is the fundamental promise of a red packet, enforced by code.
+- **Minimum 30-day lock period.** `MIN_LOCK_TIME = 30 days` is a hardcoded constant, ensuring cardholders have enough time to claim.
+- **Immutable once deployed.** Each Pool is deployed exactly once and never modified afterward. New features ship as new contract versions; existing pools keep running on the logic they were deployed with, and already-locked assets are unaffected.
 
 ## Task-amount fund safety
 
-For task cards, funds are split into a basic amount and task amounts. Even if a task unlock preimage leaks, **it cannot be hijacked**: task funds are forced to the address the cardholder locked with their first signature, and each preimage is bound to a specific (chain, Pool, card, task slot) — it cannot be replayed across chains, cards, or tasks.
+Task cards split funds into a basic amount and task amounts. Even if a task's unlock credential (the preimage) leaks, **no impostor can claim it**: the task funds are forced to the address the cardholder locked in with their first signature, and each credential is bound to a specific chain, Pool, card, and task slot — it cannot be replayed across chains, cards, or tasks.
 
-## Hardware security
+## Hardware-layer guarantees
 
-- secp256k1 private key generated by an in-chip hardware TRNG and physically sealed
-- HMAC binding between the MCU and the secure element (prevents chip-swap attacks)
-- SWD write-lock applied (prevents firmware extraction)
-- Factory lock applied (prevents malicious instructions after shipment)
-- Secure element designed to resist side-channel attacks and physical disassembly
+- The secp256k1 private key is generated by the chip's hardware TRNG and physically sealed permanently
+- The MCU and the secure element are bound by HMAC, preventing chip-swap attacks
+- SWD programming is locked, preventing firmware extraction
+- A factory lock prevents malicious instructions from being injected after the card ships
+- The secure element is designed to be side-channel-resistant and tamper-resistant
 
-## Liveness — what if Hongbao goes away?
+## Availability: what if Hongbao no longer exists?
 
-**Assets are safe at the contract level regardless of Hongbao's status.** The contract is deployed on a public chain with no owner and no dependency on any centralized service. Claimability is guaranteed by the protocol itself:
+**Whatever state Hongbao is in, assets are always safe at the contract level.** The contract is deployed on a public chain, has no owner, and depends on no centralized service. Claimability is guaranteed by the protocol itself:
 
-- Under normal conditions, cardholders claim through the official Web / App, and brief outages recover automatically.
-- As a fallback, the contract ABI, the BLE interface spec, and the CLI tool are open-source — any technically capable party can claim directly through the public interfaces. For those who can't, our support team can step in.
+- Under normal conditions, cardholders claim through the official Web / App; brief outages usually recover automatically.
+- As a fallback, the contract ABI, the BLE interface spec, and the CLI tool are all open-source — anyone with the technical know-how can claim directly through the public interfaces, and users who aren't comfortable doing so can contact our technical support team.
 
-**Under no circumstances do assets become permanently stuck in the contract.**
+**Under no circumstances can assets become permanently stuck in the contract.**
 
-## Audit status
+## Audit and disclosure
 
-The contracts are **fully public** at [github.com/hongbao-labs/contracts](https://github.com/hongbao-labs/contracts) — anyone is welcome to review them or commission an independent audit. The team has a security background, and the contracts were designed and internally reviewed by a senior auditor. A third-party audit is planned; timing is gated on order volume and client requirements. We will list the audit report here once it is available.
+The contracts are **fully public** at [github.com/hongbao-labs/contracts](https://github.com/hongbao-labs/contracts), and anyone is welcome to review them or commission an independent audit. The team has a security background; the contracts were designed by a senior auditor and put through an internal review. A third-party audit is planned, with timing dependent on order volume and client requirements. The audit report will be disclosed here once complete.
 
-## Responsible disclosure
+## Vulnerability disclosure
 
-Found a vulnerability, a cryptographic concern, or a contract risk? Email **security@hongbao.digital**. Please give us a reasonable window to respond before any public disclosure. See [contact.md](contact.md) for all channels.
+If you find a vulnerability, a cryptographic issue, or a contract risk, please email **security@hongbao.digital**. Please leave us a reasonable response window before any public disclosure. For all contact channels, see [contact.md](contact.md).
 
-## See also
+## Further reading
 
-- [Cardholder FAQ → Security](receiver/faq.md) — plain-language answers for people who received a card
-- [Issuer FAQ → Contract / Legal & Compliance](issuer/faq.md) — answers for distributors
-- [Open-source repo](https://github.com/hongbao-labs/contracts) — interfaces, events, and contracts for builders
+- [Cardholder FAQ → On security](receiver/faq.md) — plain-language answers for users who have received a card
+- [Issuer FAQ → Contract / Legal & compliance](issuer/faq.md) — answers for distributors
+- [Open-source repo](https://github.com/hongbao-labs/contracts) — interfaces, events, and contract documentation for developers
