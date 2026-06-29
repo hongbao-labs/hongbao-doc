@@ -7,7 +7,7 @@ const receiverSidebar = [
     translations: { 'zh-CN': '持卡人' },
     items: [
       { slug: 'receiver/overview' },
-      { slug: 'receiver/guide' },
+      { slug: 'receiver/claim' },
       { slug: 'receiver/faq' },
     ],
   },
@@ -19,20 +19,9 @@ const issuerSidebar = [
     translations: { 'zh-CN': '发卡方' },
     items: [
       { slug: 'issuer/overview' },
-      { slug: 'issuer/guide' },
+      { slug: 'issuer/flow' },
       { slug: 'issuer/customization' },
       { slug: 'issuer/faq' },
-    ],
-  },
-];
-
-const referenceSidebar = [
-  {
-    label: 'Reference',
-    translations: { 'zh-CN': '参考' },
-    items: [
-      { slug: 'glossary' },
-      { slug: 'developers' },
     ],
   },
 ];
@@ -77,14 +66,13 @@ export default defineConfig({
               link: '/',
               translations: { 'zh-CN': '总览' },
             },
-            { slug: 'use-cases' },
             { slug: 'security' },
+            { slug: 'glossary' },
             { slug: 'contact' },
           ],
         },
         ...receiverSidebar,
         ...issuerSidebar,
-        ...referenceSidebar,
       ],
       head: [
         {

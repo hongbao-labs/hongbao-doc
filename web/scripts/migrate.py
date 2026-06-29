@@ -29,7 +29,7 @@ DESCRIPTIONS: dict[str, dict[str, str]] = {
         "en": "Introduction for cardholders — what a Hongbao card is and why it is safe",
         "zh": "持卡人入门 — 红包卡是什么、为什么安全",
     },
-    "receiver/guide": {
+    "receiver/claim": {
         "en": "Step-by-step claim guide for Hongbao cardholders",
         "zh": "红包卡领取分步指南",
     },
@@ -41,8 +41,8 @@ DESCRIPTIONS: dict[str, dict[str, str]] = {
         "en": "Issuer overview — offline growth campaigns with physical task cards",
         "zh": "发卡方总览 — 用实体任务卡做线下增长",
     },
-    "issuer/guide": {
-        "en": "End-to-end issuer workflow from order to reclaim",
+    "issuer/flow": {
+        "en": "End-to-end issuer flow from order to reclaim",
         "zh": "发卡方端到端流程：下单到赎回",
     },
     "issuer/customization": {
@@ -53,10 +53,6 @@ DESCRIPTIONS: dict[str, dict[str, str]] = {
         "en": "Frequently asked questions for Hongbao issuers",
         "zh": "发卡方常见问题",
     },
-    "use-cases": {
-        "en": "Use-case library — ways a physical reward card beats a bare wallet address",
-        "zh": "场景库 — 实体红包卡相比裸钱包地址的应用场景",
-    },
     "security": {
         "en": "Security overview — contract, hardware, and liveness guarantees",
         "zh": "安全总览 — 合约、硬件与可用性保障",
@@ -64,10 +60,6 @@ DESCRIPTIONS: dict[str, dict[str, str]] = {
     "glossary": {
         "en": "Glossary of Hongbao terms",
         "zh": "Hongbao 术语表",
-    },
-    "developers": {
-        "en": "Developer guide — open interfaces, architecture, and custom clients",
-        "zh": "开发者指南 — 开放接口、架构与自建客户端",
     },
 }
 
@@ -153,16 +145,14 @@ def migrate_locale(locale: str, source_dir: Path) -> None:
         ("README.md", "index"),
         ("contact.md", "contact"),
         ("receiver/overview.md", "receiver/overview"),
-        ("receiver/guide.md", "receiver/guide"),
+        ("receiver/claim.md", "receiver/claim"),
         ("receiver/faq.md", "receiver/faq"),
         ("issuer/overview.md", "issuer/overview"),
-        ("issuer/guide.md", "issuer/guide"),
+        ("issuer/flow.md", "issuer/flow"),
         ("issuer/customization.md", "issuer/customization"),
         ("issuer/faq.md", "issuer/faq"),
-        ("use-cases.md", "use-cases"),
         ("security.md", "security"),
         ("glossary.md", "glossary"),
-        ("developers.md", "developers"),
     ]
 
     for source_rel, slug in mappings:
