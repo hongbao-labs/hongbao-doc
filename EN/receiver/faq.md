@@ -1,110 +1,110 @@
-# Cardholder FAQ
+# FAQ
 
-## Security
+## Security & private keys
 
 **Q: Can the private key on my card be stolen?**
-The private key is generated randomly inside the chip at the time of manufacture and never leaves it. The card manufacturer, the card issuer, Hongbao, and you yourself have no way to read it. The chip is designed with protections against side-channel attacks and physical disassembly.
+The private key is generated randomly inside the chip during manufacture and never leaves it. Nobody can read it — not the card manufacturer, the issuer, Hongbao, or even you. The secure element is also designed to resist side-channel attacks and physical tampering.
 
-**Q: Could someone secretly connect to my card via Bluetooth nearby and transfer my funds?**
-No. It takes two physical button presses: hold for 3 seconds to confirm the connection, then hold again for 10 seconds to authorize the signature. Nobody can press the button for you over the air.
+**Q: Could someone secretly connect to my card over Bluetooth nearby and move my funds?**
+No. The card has two physical button defenses: connecting takes a 3-second press to confirm, and signing takes a further 10-second press to authorize. An attacker can't make those button presses for you over the air.
 
-**Q: Can the card issuer or anyone in the middle change my receiving address?**
-No. The receiving address you enter is **written into the signed data itself** — if the address is changed, the signature becomes invalid and the smart contract will reject it. Nobody (including Hongbao, the card issuer, or the relay that submits the transaction) can redirect your assets.
+**Q: Can the issuer or someone in the middle change my recipient address?**
+No. The recipient address you enter is baked into the signed data itself. The moment that address is changed, the signature becomes invalid and the contract rejects it outright. Nobody — not us, not the issuer, not the relayer that helps submit the transaction — can redirect your assets to a different address.
 
 **Q: Can the assets on my card be double-spent?**
-No. The card's firmware is hard-coded to allow signing only once. The smart contract also records a "claimed" status, and any second submission will be rejected. These two layers are completely independent of each other.
+No. The card's firmware is hard-coded to sign only once, and the contract also records a "claimed" status, so any second submission is rejected outright. These two safeguards are independent of each other, and you need both.
 
-**Q: What if Hongbao's service is temporarily unavailable — can I still claim my card?**
-**Your assets are 100% safe.** The assets are locked in a public smart contract that has **no owner, no pause switch, and no upgrade mechanism**. As long as the blockchain is running and you have your card, the assets are yours.
+**Q: If Hongbao's service is temporarily unavailable, can I still claim my card?**
+At the asset level, you're 100% safe. The assets are locked in a public smart contract with no owner, no pause switch, and no upgrade authority. As long as the chain is running and you have your card, the assets are yours.
 
-**For claiming:** under normal conditions you use the Hongbao website or App, and brief outages will recover automatically. There is always a fallback path — the contract ABI, BLE interface, and CLI tools are fully open-source, so anyone technical can claim directly using the public interfaces. If you're not technical, our support team is always here to help. **In any situation, your assets will never be permanently stuck in the contract.**
+At the claiming level: the flow normally goes through Hongbao's official website or App, and short-term glitches usually clear up on their own. Even in an extreme case, there's still a fallback — the contract ABI, BLE interface, and CLI tools are all open-source, so anyone technical can work through the public interfaces directly. If that's not you, you can reach out to our technical support team any time. Your assets won't get stuck in the contract.
 
 ## Task cards
 
 **Q: What is a task card, and how is it different from a plain card?**
-With a plain card, you scan, press the button once, and the full amount goes directly to your address. A task card splits the amount into two parts: scanning and pressing the button gives you the **basic amount** right away, and the rest is unlocked by **completing tasks** (such as following an account, sharing a post, joining a group, on-chain activity verification, checking in at a location, etc.). Once you connect the App to the card, it will tell you which type you have and what tasks are available.
+With a plain card, you scan, press the button once, and the full amount lands in your account. A task card splits the amount in two: scanning gives you the basic amount first, and the rest unlocks only as you complete tasks — for example following an account, reposting, joining a group, verifying on-chain activity, or checking in at a location. Once the App connects to the card, it tells you clearly which type of card it is and which tasks you can unlock.
 
-**Q: Do I need to use the card again to unlock each task?**
-No. When you pressed the button the first time, your receiving address was locked to the card. From then on, each time you complete a task, the corresponding amount is sent automatically to that address — everything happens in the App, and you don't need to touch the card again.
+**Q: Do I need to use the card again to unlock tasks?**
+No. When you first pressed the button to sign, your recipient address was already locked onto the card. From then on, each time you complete a task the matching amount is sent to that address automatically. It all happens in the App — you never need to touch the card again.
 
-**Q: Is the task amount safe? Could someone else claim it on my behalf?**
-No. The funds unlocked by tasks **can only be sent to the address you locked in with your first signature**. Even if someone else gets hold of your task preimage and submits it, the funds will still go to your address — no one else can take them.
+**Q: Is the task amount safe? Could someone else claim it in my place?**
+No. Funds unlocked by tasks only ever go to the address you locked in with your first signature. Even if someone else gets hold of your task preimage, submitting it just sends the funds to your address — they can't take them.
 
-**Q: What happens if I don't finish all the tasks?**
-Any task amounts you haven't claimed by the expiry date will be reclaimed by the card issuer — **this does not affect what you've already received**. We recommend completing your tasks before the expiry date.
+**Q: What happens if I don't finish the tasks?**
+Once the expiry date passes, the issuer reclaims any unclaimed task amount, but this doesn't affect the part you've already claimed. We recommend finishing your tasks before then.
 
 **Q: Do I have to link my social accounts to do tasks?**
-Completing tasks requires you to link the relevant accounts through the App (for example, to verify that you followed a particular account on X). If you only want to claim the basic amount and skip the tasks, you don't need to link any real social identity. See the [privacy policy](https://hongbao.digital/#/privacy) for details on what data is used.
+To do tasks, you'll need to follow the App's prompts and link the relevant accounts — for example, to check whether you follow a particular X account. If you just want the basic amount and skip the tasks, there's no need to link any social identity. For the specific data involved, see the [privacy policy](https://hongbao.digital/#/privacy).
 
 ## Using your card
 
 **Q: Do I need to pay gas to claim?**
-No, you don't pay anything. The card issuer covers gas by default, through Hongbao's relay or their own. Even if no relay is available, anyone who has gas (including yourself using another wallet) can submit your signed transaction on-chain.
+You don't pay a thing. The issuer usually covers gas for you, through our relayer or their own. And even if the relayer is down, anyone with gas — including you, from another wallet — can take your signature and submit it on-chain.
 
 **Q: I don't have a crypto wallet — can I still claim?**
-Yes. The App will guide you through setting up an account with a mainstream crypto wallet or exchange to get a receiving address, then bring you back to Hongbao to complete the claim.
+Yes. The App will first walk you through signing up for a mainstream crypto wallet or exchange to get a recipient address, then bring you back to Hongbao to finish claiming.
 
-Your wallet private key or exchange account is always managed by the respective service provider — Hongbao **does not create, custody, or access** your private key. We only guide you through the onboarding.
+Your wallet's private key and your exchange account always stay with that provider. Hongbao never creates, custodies, or touches your private key — it only guides you through the signup.
 
-**Q: Can I claim assets directly to a centralized exchange deposit address?**
-It depends on the asset type:
+**Q: Can I claim assets to a centralized exchange deposit address?**
+It depends on the asset type.
 
-- **Tokens** (USDT, USDC, etc.): usually fine — most exchanges can receive them.
-- **NFTs**: **do not do this.** Many exchange deposit addresses can't receive NFTs, so the card would be spent without the NFT arriving — leaving you with nothing to claim.
+- Tokens (USDT, USDC, etc.): usually yes — most exchanges can receive them.
+- NFTs: not recommended. Many exchange deposit addresses can't receive NFTs, so even after the signature is spent the NFT has nowhere to land — the card is used up and you get nothing.
 
-If you came through the Hongbao App's onboarding flow, the App checks address compatibility for you based on what's on your card — just follow the prompts. If you're pasting an exchange address by hand, we recommend a self-custody wallet instead, and only use an exchange address for standard tokens (not NFTs).
+If you came in through the Hongbao App's signup flow, the App checks address compatibility for you based on the card's asset type — just follow the prompts. If you're pasting an exchange address by hand, we recommend a self-custody wallet first, and only consider an exchange address for standard tokens (not NFTs).
 
 **Q: Can I split the assets on one card across multiple addresses?**
-No. The card can only be signed once, and you must specify a single receiving address at that time.
+No. The card can be signed only once, and you can name only a single recipient address when you sign.
 
-**Q: Once I've claimed the card, can I add more funds to it?**
-No. Cards are **single-use by design** — once signed, the firmware rejects any further signing, and the card cannot be used again physically.
+**Q: I've claimed the card — can I top it up with more funds?**
+No. The card is single-use by design: once it has signed, the firmware won't sign again, and physically it can't be used a second time either.
 
-**Q: How long before the card expires?**
-The expiry date is set by the card issuer, with a minimum of 30 days. You can claim any time before expiry. After expiry, the card issuer may reclaim the remaining assets (depending on asset type — see below). Connect the card in the App to see the exact expiry timestamp.
+**Q: How long until the card expires?**
+The issuer sets this, with a minimum of 30 days. You can claim any time before expiry; after that, the issuer can reclaim the assets on the card (depending on the asset type — see below). Connect the card in the App to see the exact expiry timestamp.
 
-**Q: Can I still claim after the card has expired?**
-It depends on whether the card issuer has already reclaimed the assets.
-- Issuer has not reclaimed → you can still claim normally (the contract does not automatically move expired assets; it only allows the issuer to reclaim).
-- Issuer has already reclaimed → there is nothing left to claim.
+**Q: Can I still claim after it has expired?**
+It depends on whether the issuer has already reclaimed it.
+- If it hasn't been reclaimed yet, you can still claim normally. The contract doesn't move expired assets on its own; it only lets the issuer reclaim them.
+- If it has already been reclaimed, there's nothing left on the card to claim.
 
-We recommend claiming well before the expiry date.
+We recommend claiming as soon as you can, before expiry.
 
 ## Lost or damaged
 
 **Q: What if I lose my card?**
-The card is effectively the private key itself — losing the card means losing access to the funds inside. That said, **whoever finds the card may not be able to claim immediately** — they would need to know it's a Hongbao card, install the App, connect to it, and hold the button for 13 seconds. But if they're willing to put in the effort, it is technically possible for them to claim.
+The card is essentially the private key itself, so losing it is like losing the cash inside. That said, whoever finds it may not manage to claim it: they'd have to know it's a Hongbao card, install the right App, connect to the card, and then hold the button for 13 seconds. If they're determined enough, though, claiming the assets is in theory still possible.
 
-If you notice early, contact the card issuer — they can wait for the expiry date and then reclaim the assets (so the funds won't end up with whoever found the card), and issue you a replacement card. They cannot intervene before the expiry.
+If you notice early, contact the issuer as soon as you can. The issuer can reclaim the assets after expiry — so the finder can't claim them — and then send you a replacement. Before expiry, though, there's nothing they can do.
 
-**Q: My card got wet or physically damaged — are the assets locked forever?**
-If the card is damaged, the private key is inaccessible and the on-chain assets cannot be signed out. However, the card issuer can reclaim the assets after expiry, so they won't be stuck in the contract permanently. Please contact the card issuer to request a replacement card.
+**Q: My card got wet or was crushed — are the assets locked forever?**
+Yes. A damaged card means the private key is unusable, so the on-chain assets can no longer be signed out. But the issuer can reclaim them after expiry, so they won't be stuck in the contract forever. Please contact the issuer to request a replacement.
 
-**Q: What if the battery runs out?**
-New cards have a shelf life of approximately 3 years. If the battery fails before the expiry date, the process is the same as above — contact the card issuer, wait for expiry, and they can reclaim and reissue. The card battery **is not replaceable**.
+**Q: What if the battery dies?**
+A new card has a shelf life of about 3 years. If the battery fails before expiry, it's handled the same way as above: contact the issuer, and once they reclaim at expiry they'll send a replacement. The card's battery can't be replaced.
 
 ## Supported chains & assets
 
-**Q: Which blockchains are supported?**
-**At the protocol level:** any chain that uses the secp256k1 elliptic curve for signature verification. This is the de facto universal curve in the crypto world, covering virtually all major public blockchains (Bitcoin, Ethereum and all EVM chains, Solana, Sui, Aptos, Tron, Cosmos ecosystem, Litecoin / Dogecoin / BCH, and more).
+**Q: Which chains are supported?**
+At the protocol level, any chain that uses the secp256k1 elliptic curve for signature verification. It's the de facto universal curve in crypto, so this covers almost all major public chains, including Bitcoin, Ethereum and all EVM chains, Solana, Sui, Aptos, Tron, the Cosmos ecosystem, Litecoin, Dogecoin, and BCH.
 
-EVM is simply our first production integration:
+EVM is our first live example:
 
-- **Currently developed and live:** Ethereum and all EVM-compatible chains (BSC, Polygon, Arbitrum, Base, Optimism, etc.).
-- **Available on request by card issuers:** Bitcoin, Solana, Sui, Aptos, Cosmos, and others.
+- Already developed and live: Ethereum and all EVM-derived chains, including BSC, Polygon, Arbitrum, Base, and Optimism.
+- Expanded per order, based on issuer demand: Bitcoin, Solana, Sui, Aptos, Cosmos, and more.
 
-Which chain a specific card uses is determined by the card issuer; the App will display this when connected.
+The issuer decides which chain a given card uses, and the App shows it once you connect the card.
 
 **Q: Which assets are supported?**
-**At the protocol level:** any asset type that supports a "standard transfer" — fungible tokens, non-fungible tokens, and custom project contracts are all supported.
+At the protocol level, a card can carry any asset that supports a "standard transfer" — including fungible tokens, non-fungible tokens, and a project's own custom contracts.
 
-**Currently developed EVM contracts cover:**
+The EVM contracts developed so far cover:
 
-- ERC20 tokens (stablecoins like USDT / USDC, major tokens, project-specific ERC20s, etc.): ✅
+- ERC20 tokens (such as stablecoins USDT / USDC, major tokens, a project's own ERC20, etc.): ✅
 - ERC721 NFTs: ✅
-- Native coins (ETH, BNB, etc.): not supported in the current standard contract; card issuers typically wrap them as wrapped tokens (e.g., WETH) before use.
-- ERC1155 / non-standard tokens / custom project contracts: available as custom orders.
+- Native coins (such as ETH, BNB, etc.): not supported by the current standard contract; issuers usually wrap them into a wrapped token (such as WETH) first.
+- ERC1155, non-standard tokens, and a project's own contracts: custom-built per order.
 
 ## Still have questions?
 
-Reach out to the card issuer — they know their campaign best. For product or technical questions, see the [open-source repo](https://github.com/hongbao-labs/contracts) or email dev@hongbao.digital.
+Reach out to the issuer — they know their own campaign best. For product or technical questions, check the [open-source repo](https://github.com/hongbao-labs/contracts) or email dev@hongbao.digital.

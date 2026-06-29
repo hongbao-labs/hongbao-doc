@@ -1,140 +1,69 @@
-# Turn on-chain incentives into an offline campaign only real users can join
+# Issuer Overview
 
-**A physical gift card as the entry ticket + complete tasks to unlock the rest + real-user data fed back to you. Bots can't get a card, let alone finish the tasks.**
+Hongbao is asset-distribution infrastructure built on "physical cards + public-chain contracts." It lets you hand value to a cardholder in a way that is secure, unambiguous, and verifiable.
 
-Hongbao lets a project run an offline growth campaign with a single physical card: load tokens into the card, set a batch of tasks (follow, retweet, join a group, on-chain interaction, etc.). The user gets a card — **the card itself is an anti-sybil identity ticket** — scans to claim a basic amount, and completes tasks to unlock more. When the campaign ends, what you walk away with isn't just "how much went out," but **who took part and what they look like on-chain**.
+Think of it as the on-chain version of the real-world red packet. It's not a traditional gift card, nor just an airdrop tool — it's a verifiable, traceable, composable asset-transfer protocol: the issuer locks assets into a card, and the cardholder claims them with a signature once the card is in hand. The physical card decides "who claims, when, and whether it can be claimed again"; the on-chain contract governs "whether a claim is valid, whether it can be replayed, and whether the funds are safe."
 
-> Hongbao brings the online quest-platform playbook offline, and uses the physical card to solve the single biggest weakness of online quest platforms: sybils.
+The mechanism fits two kinds of scenarios:
 
----
+- **One-to-one gifting**: send assets as a gift to customers, friends and family, KOLs, or event attendees.
+- **Task-driven growth**: split assets into a basic amount and task amounts, so users keep unlocking rewards as they complete tasks.
 
-## What hurts most when you run a growth campaign?
+If you've ever run an airdrop, a gift-card program, an offline event, or private-community growth, Hongbao is a natural fit — thanks to two built-in advantages:
 
-### 1. On online quest platforms, the bots outnumber the humans
-
-You run a campaign on a quest platform, paying for "users who completed tasks" — but most of them are script farms:
-
-- Sybil attackers captured **48% of the tokens** in some large airdrops ([BlockEden](https://blockeden.xyz/blog/2026/01/27/airdrop-season-2026-opensea-base-polymarket-hyperliquid-guide/))
-- Industry research: **70% of "eligible" airdrop wallets are fake** (Cookie3)
-- A single project has to filter hundreds of thousands of sybil addresses via IP clustering and wallet-graph analysis just to barely clear the field ([sybil overview](https://integral.xyz/blog/sybil-attacks))
-
-No matter how you design the online tasks, you cannot stop **one person from controlling ten thousand wallets**.
-
-### 2. Once the tokens are out, you have no idea who your users are
-
-Send an airdrop or redeem code, and all you get back is a string of addresses:
-
-- You don't know if they're real, whether they're active, or what other protocols they use
-- No way to reach them again, no user profile, no data asset to keep
-- Web3 projects spend **29–95% of enterprise value** on user acquisition (vs. 7–15% for Web2) — the money's gone, the data isn't kept ([Tokens as CAC](https://tomtunguz.com/tokens-as-cac/))
-
-### 3. You want to run something offline, but you have no digital tooling for it
-
-Conferences, meetups, on-the-ground activations — offline is the most efficient place to reach real users, but you have no good tool for it:
-
-- Printed cards / redeem codes carry a stack of physical risks: exposure when shared online, insider theft, interception in transit ([a YouTuber exposed his seed on a livestream and lost $60K](https://decrypt.co/154522/youtuber-loses-60k-worth-crypto-after-showing-seed-phrase-stream); [an insider stole $4M in cards at Home Depot](https://www.cbsnews.com/atlanta/news/ex-home-depot-employee-sentenced-to-prison-for-stealing-over-4-million-in-gift-card-scheme-officials-say/))
-- Huge volumes of distributed cards simply sink — **$21B in US retail gift cards go unredeemed every year** ([Capital One Shopping](https://capitaloneshopping.com/research/gift-card-statistics/))
-- Offline behavior and online identity never line up, so campaign results can't be measured
+1. **Stronger sybil resistance**: a bot can register countless wallets, but it can't get its hands on a pile of physical cards, and it can't complete your offline tasks for you.
+2. **Stronger retention and traceability**: behind every card is a real person and a verifiable path of asset flow.
 
 ---
 
-## How Hongbao does it
+## Why Hongbao
 
-### One card = one real identity (physical anti-sybil)
+### For the issuer
 
-Each card contains a secure element; the private key is generated in-chip, never exported, and **maps to one unique on-chain identity**. Bots can batch-register ten thousand wallets, but they **can't batch-hold ten thousand physical cards, and certainly can't show up in person to complete your offline tasks**.
+- **Simple and efficient**: you don't have to maintain your own key-management setup, transfer scripts, or task system. The cards and the client app handle all of that for you.
+- **Secure and controllable**: assets are locked in public-chain contracts, the private key lives in hardware, and each card can sign only once. There's no need to whitelist users, and you never have to worry about your own private key being abused.
+- **Configurable**: lock period, expiry rules, task thresholds, card-face content, asset types — all are negotiable business and product parameters.
+- **Extensible**: beyond plain tokens, it supports NFTs, and new public chains can be integrated to fit your needs.
 
-A physical card nails down "one person = one identity" by its very nature — something no online quest platform can achieve no matter how it tunes its risk controls.
+### For the cardholder
 
-### Basic amount + task unlock (tiered release)
+- **Low barrier**: once they have the card, they just connect the app and tap a button to claim.
+- **Smooth experience**: any Bluetooth-capable device can complete a claim — no manual transaction signing, no need to understand complex on-chain operations.
+- **Lower risk**: layered security means that even if an attacker takes the card, moving the assets away is extremely difficult — and once a card has signed, it's spent.
 
-The tokens in a card split into two parts:
+## How it works
 
-```
-Card total = basic amount  +  task amounts (1–255 tasks, each its own amount)
-```
+A typical flow looks like this:
 
-1. **Claim the basic amount**: the user scans and presses the button once; the basic amount lands — and that single signature **locks the recipient address** onto the card
-2. **Complete tasks to unlock more**: each time the user finishes a task (follow, retweet, join a group, prove on-chain activity, etc.), the corresponding task amount unlocks and the funds go **automatically to the address locked earlier**
-3. **You control task verification**: each task's unlock preimage is generated by you (the issuer) — it can be released through Hongbao Web or from your own backend; **the call on task completion is yours**
-4. **Reclaim the rest in one click**: when the campaign ends, any task amounts that went unclaimed are reclaimable to your own wallet in one click
+1. You deposit assets into a Pool on a public chain;
+2. You hand the cards to your target users;
+3. In the app, a user scans the code, connects the card, enters their own recipient address, and authorizes the signature;
+4. The contract verifies the signature and transfers the assets to the user;
+5. For a task card, the user keeps unlocking task amounts as they complete tasks.
 
-> By design, even a leaked unlock preimage can't be hijacked — the funds can only land at the address the user locked with their first signature. Full mechanics in the [open-source repo](https://github.com/hongbao-labs/contracts).
+See [flow.md](flow.md) for the full flow.
 
-### Real-user data fed back to you
+## What businesses it suits
 
-As users complete tasks, the App guides them to bind social accounts; the on-chain address is bound by the signature. On your Web dashboard you get:
+Hongbao fits scenarios like these:
 
-- **Who took part**: each card's claim status and which tasks they completed
-- **On-chain profile**: user address, gas spend, DEX interactions, and other behavior (all public on-chain data)
-- **Real-time tracking + data export + one-click AI-generated analysis**
+- **Community airdrops**: let real users claim, instead of letting sybil bots drain the pool.
+- **Offline events**: load rewards onto physical cards and hand them to attendees on-site, boosting engagement.
+- **KOL / community incentives**: reward those who drive social reach directly, without complex airdrop-distribution logic.
+- **Brand gifts / customer rewards**: turn coupons, tokens, NFTs, or other assets into a physical card with a personal touch.
 
-**Data is tiered by participation**: a detailed profile unlocks only when the user completes tasks; if they don't, all we get is an on-chain address — no real social identity is forced. The privacy boundary is set by the [privacy policy](https://hongbao.digital/#/privacy).
+## What you can customize
 
----
+- Card-face customization: the Hongbao logo stays; the rest is yours to design;
+- Asset types: ERC20 / ERC721 / native coin supported (as needed);
+- Task design: the rules for basic amount + task amounts are yours to define;
+- Distribution: single cards, batches, or enterprise-scale procurement, all handled per order.
 
-## What you can and can't do
+See [customization.md](customization.md) for details.
 
-**What you can do:**
+## Read on
 
-- Distribute assets on any secp256k1 chain (EVM first, including ERC20 + ERC721; other ecosystems opened per order — see [README](../README.md))
-- Split the value into "basic + tasks," and freely set task content, count (up to 255), and the amount per task
-- Set an expiry (minimum 30 days), and reclaim unredeemed amounts in one click
-- Co-brand the card face (Hongbao logo retained, the rest open to your design — see [customization.md](customization.md))
-- Own task verification yourself (Hongbao-hosted or your own backend)
-
-**What you can't do** (hard design constraints):
-
-- Change the recipient address the user locked with their first signature (the cardholder fully controls where assets go)
-- Claw back assets the user can already claim, before expiry
-- Hijack a user's task amounts (funds are forced to the locked address)
-
----
-
-## Workflow
-
-```
-1. Place the order (quantity / target chain / asset / card-face design)
-2. Design the campaign: basic amount + task list (amount + completion condition per task)
-3. We ship the physical cards + a JSON file (each card's on-chain address + batch metadata)
-4. Issuer verifies on receipt (sample or full address comparison)
-5. Lock assets + write task commitments in the Web Dapp, in one click
-6. Hand out the physical cards offline
-7. Users scan to claim the basic amount → complete tasks → unlock task amounts
-8. Track participation and profiles live on the dashboard; reclaim unredeemed amounts in one click after expiry
-```
-
-On-chain actions (Factory / Pool deployment, approve, batchDepositWithTasks, claimTask, withdrawExpired) are all wrapped behind buttons in the Web Dapp — no scripting needed. Full flow in the [end-to-end guide](guide.md); developer teams refer to the [open-source repo](https://github.com/hongbao-labs/contracts).
-
-## Business model
-
-Hongbao charges nothing on-chain — **zero contract fees, zero Relayer fees**. Your cost is only the hardware plus the assets themselves. Our revenue lives outside the protocol layer:
-
-| Revenue line | Description |
-|---|---|
-| **Hardware sales** | Card price. B2B volume pricing + retail |
-| **Platform service fee** | Task system, data dashboard, co-branded customization, new-chain / new-asset expansion, integration support |
-| **App-side ecosystem partnerships** | Referral revenue when cardholders connect to wallets, exchanges, and dapps inside the App |
-
-Current customers are primarily **Web3 projects / L1-L2 ecosystems / exchanges / wallets** — typical scenarios include offline conference distribution, KOL gifts, early-adopter incentives, community OG rewards, and new-user onboarding.
-
-## Security guarantees
-
-- **The basic amount is trustless**: claimed by pure device signature, with no centralized service involved
-- **Task amounts are fund-safe**: even a leaked unlock preimage can't be hijacked — funds are forced to the address the user locked with their first signature
-- **The private key has never existed in any Hongbao system**: each card's key is generated in-chip at the factory and physically sealed
-- **Unredeemed assets are reclaimable**: the issuer reclaims in one click after expiry, so nothing gets stuck
-
-The contracts are fully public — independent audit or self-audit welcome. Specific commercial terms, liability allocation, and each party's obligations are set out in the formal contract.
-
-## Next
-
-- [Use-case library](../use-cases.md): 24 scenarios across growth, commerce, payouts, and consumer gifting — find the one that fits you
-- [End-to-end flow](guide.md): ordering, designing tasks, receiving cards, locking, distributing, reclaiming — every step
-- [Co-branded customization](customization.md): reserved areas, customizable items, finishing, MOQ, process
-- [FAQ](faq.md): tasks, data, compliance, breakage, multi-chain, and more
-- [Security model](../security.md): safeguards, contract guarantees, audit status
-- [Developers](../developers.md): architecture, interfaces, and the open-source repo
-- [contact.md](../contact.md): business inquiries / bulk orders / ecosystem partnerships
-
-> Want the task-card contract mechanics (basic amount + task amounts, unlock preimages, address binding)? See the [open-source repo](https://github.com/hongbao-labs/contracts).
+- [flow.md](flow.md) — the full flow from order to payout
+- [customization.md](customization.md) — customization of the card face, assets, and tasks
+- [faq.md](faq.md) — common questions, covering contracts, legal, and operations
+- [security.md](../security.md) — the security model and contract-level guarantees
